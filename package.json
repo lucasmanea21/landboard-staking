@@ -1,0 +1,71 @@
+{
+	"name": "landboard-app",
+	"version": "0.1.0",
+	"private": true,
+	"dependencies": {
+		"@craco/craco": "^6.4.3",
+		"@elrondnetwork/dapp-core": "1.0.0",
+		"@elrondnetwork/dapp-utils": "0.1.3",
+		"@elrondnetwork/erdjs": "9.0.3",
+		"axios": "^0.26.0",
+		"dayjs": "^1.10.8",
+		"framer": "^2.0.0",
+		"framer-motion": "^6.2.8",
+		"hex-to-css-filter": "^5.3.0",
+		"jotai": "^1.6.1",
+		"react": "^17.0.2",
+		"react-dom": "^17.0.2",
+		"react-hot-toast": "^2.2.0",
+		"react-router-dom": "6.2.1",
+		"react-scripts": "4.0.3",
+		"react-use": "^17.3.2",
+		"typescript": "4.1.2",
+		"swiper": "^7.0.9",
+		"web-vitals": "1.0.1"
+	},
+	"scripts": {
+		"start": "craco start",
+		"start-testnet": "npm run copy-testnet-config & npm run start",
+		"start-devnet": "npm run copy-devnet-config & npm run start",
+		"build": "craco build",
+		"build-testnet": "npm run copy-testnet-config & npm run build",
+		"build-devnet": "npm run copy-devnet-config & npm run build",
+		"copy-testnet-config": "cp ./src/config.testnet.tsx ./src/config.tsx",
+		"copy-devnet-config": "cp ./src/config.devnet.tsx ./src/config.tsx",
+		"watch:css": "postcss -w src/shared/globals.css -o src/shared/tailwind.css",
+		"test": "craco test",
+		"eject": "react-scripts eject"
+	},
+	"browserslist": {
+		"production": [
+			">0.2% and supports es6-class",
+			"not dead",
+			"not op_mini all",
+			"not chrome < 51",
+			"not safari < 10"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	},
+	"devDependencies": {
+		"@babel/core": "^7.0.0",
+		"@babel/plugin-proposal-class-properties": "^7.7.4",
+		"@babel/plugin-proposal-logical-assignment-operators": "^7.16.7",
+		"@babel/plugin-proposal-optional-chaining": "^7.16.7",
+		"@babel/preset-env": "^7.0.0",
+		"@babel/preset-react": "^7.0.0",
+		"@types/node": "12.0.0",
+		"@types/react": "17.0.7",
+		"@types/react-dom": "17.0.0",
+		"autoprefixer": "9",
+		"postcss": "7",
+		"tailwindcss": "npm:@tailwindcss/postcss7-compat"
+	},
+	"resolutions": {
+		"//": "See https://github.com/facebook/create-react-app/issues/11773",
+		"react-error-overlay": "6.0.9"
+	}
+}
