@@ -9,10 +9,9 @@ const Input = ({ label, name, LabelButton, ...rest }: InputProps) => {
 	return (
 		<label className="input-container" htmlFor={name}>
 			<div className="flex items-center justify-between w-full">
-				<span className="font-bold uppercase">{label}</span>
+				<span className="font-bold">{label}</span>
 				{LabelButton}
 			</div>
-			<span className="font-bold">{label}</span>
 			<input type="text" {...rest} />
 		</label>
 	);
