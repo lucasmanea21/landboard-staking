@@ -1,5 +1,5 @@
 import { useGetAccountInfo } from "@elrondnetwork/dapp-core";
-import { motionContainerProps } from "animation/variants";
+import { fadeInVariants, motionContainerProps } from "animation/variants";
 import StakeContract from "api";
 import axios from "axios";
 import Button from "components/buttons";
@@ -97,15 +97,15 @@ const Home = () => {
 	const disabled = stakedQuantity === "0" || !stakedQuantity || !address || totalLandBalance < 1000;
 
 	return (
-		<div className="home">
+		<motion.div className="home" {...motionContainerProps}>
 			<div className="stake-container">
 				<div className="home__title">
-					<h1>
+					<motion.h1 variants={fadeInVariants}>
 						EARN - STAKE YOUR <span className="text-purple">LAND</span>
-					</h1>
-					<p>Starts on 20 March 2022 20:00 UTC</p>
+					</motion.h1>
+					<motion.p variants={fadeInVariants}>Starts on 20 March 2022 20:00 UTC</motion.p>
 				</div>
-				<div className="home__form" onSubmit={() => {}}>
+				<motion.div className="home__form" onSubmit={() => {}} {...motionContainerProps}>
 					<Input
 						placeholder="0"
 						label="Amount to Stake"
@@ -130,29 +130,35 @@ const Home = () => {
 						onChange={handleChangeReferralCode}
 					/>
 					{address && (
-						<p className="home__form--balance">
+						<motion.p variants={fadeInVariants} className="home__form--balance">
 							LAND Balance: <span>{totalLandBalance}</span>
-						</p>
+						</motion.p>
 					)}
-					<div className="home__form--info">
+					<motion.div variants={fadeInVariants} className="home__form--info">
 						<Icon name="info" primary />
-						<span>
-							There will be a 9 - 10 days unbonding period when you unstake. You will be able to withdraw your funds
-							only after that period.
-						</span>
-					</div>
-					<Button className="filled" disabled={disabled} hideComingSoon>
+						{totalLandBalance > 0 ? (
+							<span>
+								There will be a 9 - 10 days unbonding period when you unstake. You will be able to withdraw your funds
+								only after that period.
+							</span>
+						) : (
+							<a href="https://presale.landboard.io">
+								<span>No LAND, no problem, buy some in the presale here.</span>
+							</a>
+						)}
+					</motion.div>
+					<Button className="filled" disabled={disabled} hideComingSoon animate>
 						Stake Now
 					</Button>
-				</div>
+				</motion.div>
 			</div>
 
-			<div className="home__title">
-				<h1>
+			<motion.div className="home__title">
+				<motion.h1 variants={fadeInVariants}>
 					CHOOSE YOUR <span className="text-purple">LAND</span>
-				</h1>
-				<p>Become a marketing guru through land advertisement</p>
-				<motion.div {...motionContainerProps} className="plan-grid">
+				</motion.h1>
+				<motion.p variants={fadeInVariants}>Become a marketing guru through land advertisement</motion.p>
+				<div className="plan-grid">
 					{plans.map((plan) => (
 						<PlanCard
 							{...plan}
@@ -162,9 +168,9 @@ const Home = () => {
 							handleSelect={() => setActiveDay(plan.days)}
 						/>
 					))}
-				</motion.div>
-			</div>
-		</div>
+				</div>
+			</motion.div>
+		</motion.div>
 	);
 };
 
