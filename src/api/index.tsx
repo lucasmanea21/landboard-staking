@@ -73,6 +73,7 @@ export default class StakeContract {
 			gasLimit: new GasLimit(6000000),
 			args: [new I8Value(1)],
 		});
+
 		tx.setNonce(this.stakerAccount.nonce);
 
 		sendTransactions({
