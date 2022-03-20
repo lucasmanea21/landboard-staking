@@ -55,11 +55,7 @@ export default class StakeContract {
 	};
 
 	createUnstakeTransaction = async () => {
-		let contract = new SmartContract({
-			address: new Address(CONTRACT_ADDRESS),
-		});
-
-		let tx = contract.call({
+		let tx = this.contract.call({
 			func: new ContractFunction("unstake"),
 			gasLimit: new GasLimit(6000000),
 			args: [new I8Value(1)],
@@ -72,12 +68,21 @@ export default class StakeContract {
 	};
 
 	createClaimTransaction = async () => {
-		let contract = new SmartContract({
-			address: new Address(CONTRACT_ADDRESS),
-		});
-
-		let tx = contract.call({
+		let tx = this.contract.call({
 			func: new ContractFunction("claim"),
+			gasLimit: new GasLimit(6000000),
+			args: [new I8Value(1)],
+		});
+		tx.setNonce(this.stakerAccount.nonce);
+
+		sendTransactions({
+			transactions: tx,
+		});
+	};
+
+	createWithdrawTransaction = async () => {
+		let tx = this.contract.call({
+			func: new ContractFunction("withdraw"),
 			gasLimit: new GasLimit(6000000),
 			args: [new I8Value(1)],
 		});

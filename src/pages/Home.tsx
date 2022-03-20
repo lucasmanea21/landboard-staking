@@ -71,26 +71,12 @@ const Home = () => {
 	};
 
 	const handleChangeReferralCode = (e: any) => {
-		const regex = RegExp(/[0-9]+/g);
-		const test_result = regex.test(e.target.value);
-		let newRefferalCode = "";
-
-		if (test_result) {
-			const value = parseInt(e.target.value);
-			if (value > 0 && value <= 20000) {
-				newRefferalCode = e.target.value;
-				setReferralCode(newRefferalCode);
-			}
-		}
-		if (e.target.value === "") {
-			setReferralCode("");
-		}
+		setReferralCode(e.target.value);
 	};
 
 	useEffect(() => {
 		if (account.address != "") {
 			setStakeContract(new StakeContract(account.address));
-
 			axios.get(`https://${environment}api.elrond.com/accounts/${account.address}/tokens`).then((res: any) => {
 				if (res.data?.length > 0) {
 					const tokens = res.data.filter((a: any) => a?.identifier === "LAND-40f26f" || a?.ticker === "LAND-40f26f");
@@ -102,11 +88,11 @@ const Home = () => {
 
 	useEffect(() => {
 		if (stakeContract) {
-			stakeContract.getStakeTypes().then((res: any) => {
-				console.log("res", res);
+			stakeContract.getStakerAddresses().then((res: any) => {
+				console.log("stakerAddresses", res);
 			});
 		}
-	});
+	}, [stakeContract]);
 
 	const disabled = stakedQuantity === "0" || !stakedQuantity || !address || totalLandBalance < 1000;
 
@@ -137,7 +123,12 @@ const Home = () => {
 							/>
 						}
 					/>
-					<Input placeholder="1234" label="Referral Code" value={referralCode} onChange={handleChangeReferralCode} />
+					<Input
+						placeholder="erd1dl8ucer...4d74dfqwy7ntn"
+						label="Referral Code (Paste address)"
+						value={referralCode}
+						onChange={handleChangeReferralCode}
+					/>
 					{address && (
 						<p className="home__form--balance">
 							LAND Balance: <span>{totalLandBalance}</span>

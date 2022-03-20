@@ -12,7 +12,7 @@ const convertToHex = (str: string) => {
 	return result;
 };
 
-export const CONTRACT_ADDRESS = "erd1qqqqqqqqqqqqqpgqc2hatzwq0cagshruxgtu8l5par22j36e4dfqvp4f2d";
+export const CONTRACT_ADDRESS = "erd1qqqqqqqqqqqqqpgqef5fcezxavwtpczx3cl0ue4k5fvtca4f4dfqukhz5z";
 
 export const CALLER_ADDRESS = "erd1dl8ucerztz80eqtvs2u35vj5pckle3h3mnuce5fctyzxp4d74dfqwy7ntn";
 export const CALLER_ADDRESS_ONLY_HEX = convertToHex(CONTRACT_ADDRESS);
