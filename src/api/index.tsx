@@ -80,19 +80,6 @@ export default class StakeContract {
 		});
 	};
 
-	createWithdrawTransaction = async () => {
-		let tx = this.contract.call({
-			func: new ContractFunction("withdraw"),
-			gasLimit: new GasLimit(6000000),
-			args: [new I8Value(1)],
-		});
-		tx.setNonce(this.stakerAccount.nonce);
-
-		sendTransactions({
-			transactions: tx,
-		});
-	};
-
 	getStakeTypes = async () => {
 		let contract = new SmartContract({
 			address: new Address(CONTRACT_ADDRESS),
