@@ -104,6 +104,7 @@ export default class StakeContract {
 		let response = await this.contract.runQuery(provider, {
 			func: new ContractFunction("getStakeTypes"),
 		});
+
 		return response;
 	};
 
