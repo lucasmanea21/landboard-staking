@@ -1,4 +1,5 @@
 import { useGetAccountInfo } from "@elrondnetwork/dapp-core";
+import { ContractCallPayloadBuilder } from "@elrondnetwork/erdjs/out";
 import { fadeInVariants, motionContainerProps } from "animation/variants";
 import StakeContract from "api";
 import axios from "axios";
@@ -74,6 +75,10 @@ const Home = () => {
 		setReferralCode(e.target.value);
 	};
 
+	const handleStake = () => {
+		stakeContract?.createStakeTransaction();
+	};
+
 	useEffect(() => {
 		if (account.address != "") {
 			setStakeContract(new StakeContract(account.address));
@@ -88,13 +93,11 @@ const Home = () => {
 
 	useEffect(() => {
 		if (stakeContract) {
-			stakeContract.getStakerAddresses().then((res: any) => {
-				console.log("stakerAddresses", res);
-			});
+			stakeContract.getStakeTypes().then((res: any) => {});
 		}
 	}, [stakeContract]);
 
-	const disabled = stakedQuantity === "0" || !stakedQuantity || !address || totalLandBalance < 1000;
+	const disabled = true || stakedQuantity === "0" || !stakedQuantity || !address || totalLandBalance < 1000;
 
 	return (
 		<motion.div className="home" {...motionContainerProps}>
@@ -147,7 +150,7 @@ const Home = () => {
 							</a>
 						)}
 					</motion.div>
-					<Button className="filled" disabled={disabled} hideComingSoon animate>
+					<Button className="filled" onClick={handleStake} disabled={disabled} hideComingSoon animate>
 						Stake Now
 					</Button>
 				</motion.div>
