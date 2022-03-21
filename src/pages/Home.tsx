@@ -161,6 +161,12 @@ const Home = () => {
 					CHOOSE YOUR <span className="text-purple">LAND</span>
 				</motion.h1>
 				<motion.p variants={fadeInVariants}>Become a marketing guru through land advertisement</motion.p>
+				<motion.span className="text-sm mb-2" variants={fadeInVariants}>
+					Check APRs for each plan{" "}
+					<a className="text-purple underline" href="https://twitter.com/landboard_io/status/1505272042114924547">
+						here.
+					</a>
+				</motion.span>
 				<div className="plan-grid">
 					{plans.map((plan) => (
 						<PlanCard
