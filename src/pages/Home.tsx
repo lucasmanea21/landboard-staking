@@ -150,7 +150,7 @@ const Home = () => {
 							</a>
 						)}
 					</motion.div>
-					<Button className="filled" onClick={handleStake} disabled={disabled} hideComingSoon animate>
+					<Button className="filled" onClick={handleStake} disabled={disabled} animate>
 						Stake Now
 					</Button>
 				</motion.div>

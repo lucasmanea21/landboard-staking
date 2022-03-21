@@ -39,7 +39,7 @@ label > span {
 }
 
 hr {
-	@apply border-b-2 border-purple w-40 mt-2;
+	@apply w-40 mt-2 border-b-2 border-purple;
 }
 
 .btn {
@@ -166,13 +166,13 @@ input:focus {
 }
 
 .stake-card__body {
-	@apply flex flex-col gap-3 p-5 items-start;
+	@apply flex flex-col items-start gap-3 p-5;
 }
 .stake-card__body > ul {
-	@apply text-base font-bold items-start flex flex-col gap-2;
+	@apply flex flex-col items-start gap-2 text-base font-bold;
 }
 .stake-card__body > ul > li {
-	@apply flex gap-2 items-center;
+	@apply flex items-center gap-2;
 }
 .stake-card__body > .relative {
 	@apply mt-auto;
@@ -323,11 +323,15 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 .staked-grid {
-	@apply grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-10 mt-10;
+	@apply grid grid-cols-1 gap-5 mt-10 md:grid-cols-2 md:gap-10;
 }
 
 .home__form {
 	@apply flex flex-col items-center justify-center gap-5 max-w-[20.9375rem] w-full;
+}
+
+.home__form > .relative {
+	@apply mt-4;
 }
 
 .stake-container {
