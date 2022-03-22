@@ -4,7 +4,7 @@ import NotFound from "pages/404";
 import Home from "pages/Home";
 import { Fragment } from "react";
 import { Toaster } from "react-hot-toast";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import routes, { routeNames } from "routes";
 
 const environment = "mainnet";
@@ -29,7 +29,7 @@ const App = () => {
 						<NotificationModal />
 						<SignTransactionsModals className="modal-card" />
 						<Routes>
-							<Route path="/" element={<Home />} />
+							<Route path="/" element={<Navigate to="/staking" replace />} />
 							<Route path={routeNames.unlock} element={<UnlockPage loginRoute="/" />} />
 							{routes.map((route: any, index: number) => (
 								<Route path={route.path} key={"route-key-" + index} element={<route.component />} />

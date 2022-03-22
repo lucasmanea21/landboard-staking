@@ -5,6 +5,8 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion/dist/framer-motion";
 import { fadeInVariants, motionContainerProps } from "animation/variants";
+import Dracula from "components/icons/Dracula";
+import Button from "components/buttons";
 
 const Staked = () => {
 	const { isLoggedIn } = useGetLoginInfo();
@@ -29,7 +31,12 @@ const Staked = () => {
 			</motion.div>
 
 			<div className="staked-grid">
-				<StakeCard
+				<Dracula />
+				<motion.p variants={fadeInVariants}>No staked land yet, stake some now!</motion.p>
+				<Button className="btn filled" onClick={() => navigate("/staking")}>
+					STAKE NOW
+				</Button>
+				{/* <StakeCard
 					title="Lander"
 					days={15}
 					stakedAmount="1000 LAND"
@@ -56,7 +63,7 @@ const Staked = () => {
 					startDate="2022-03-20"
 					endDate="2022-04-6"
 					Icon={<Icon name="cyborg" primary />}
-				/>
+				/> */}
 			</div>
 		</motion.div>
 	);

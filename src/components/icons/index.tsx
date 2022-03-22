@@ -9,10 +9,12 @@ interface IconProps {
 
 export const CalendarStar: React.FC<IconProps> = (props) => <Icon {...props} name="calendar_star" />;
 export const Chrome: React.FC<IconProps> = (props) => <Icon {...props} name="chrome" />;
+export const Close: React.FC<IconProps> = (props) => <Icon {...props} name="close" />;
 export const Cyborg: React.FC<IconProps> = (props) => <Icon {...props} name="cyborg" />;
 export const Discord: React.FC<IconProps> = (props) => <Icon {...props} name="discord" />;
 export const Expand: React.FC<IconProps> = (props) => <Icon {...props} name="expand" />;
 export const Fan: React.FC<IconProps> = (props) => <Icon {...props} name="fan" />;
+export const Hamburger: React.FC<IconProps> = (props) => <Icon {...props} name="hamburger" />;
 export const History: React.FC<IconProps> = (props) => <Icon {...props} name="history" />;
 export const Info: React.FC<IconProps> = (props) => <Icon {...props} name="info" />;
 export const Info2: React.FC<IconProps> = (props) => <Icon {...props} name="info2" />;

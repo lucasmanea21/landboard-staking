@@ -1,9 +1,11 @@
 import { ReactComponent as CalendarStar } from './calendar_star.svg';
 import { ReactComponent as Chrome } from './chrome.svg';
+import { ReactComponent as Close } from './close.svg';
 import { ReactComponent as Cyborg } from './cyborg.svg';
 import { ReactComponent as Discord } from './discord.svg';
 import { ReactComponent as Expand } from './expand.svg';
 import { ReactComponent as Fan } from './fan.svg';
+import { ReactComponent as Hamburger } from './hamburger.svg';
 import { ReactComponent as History } from './history.svg';
 import { ReactComponent as Info } from './info.svg';
 import { ReactComponent as Info2 } from './info2.svg';
@@ -28,10 +30,12 @@ import { ReactComponent as Wizard } from './wizard.svg';
 export default {
 "calendar_star": CalendarStar, 
 "chrome": Chrome, 
+"close": Close, 
 "cyborg": Cyborg, 
 "discord": Discord, 
 "expand": Expand, 
 "fan": Fan, 
+"hamburger": Hamburger, 
 "history": History, 
 "info": Info, 
 "info2": Info2, 

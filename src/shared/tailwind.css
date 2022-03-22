@@ -244,6 +244,15 @@ input:focus {
 	@apply w-full;
 }
 
+nav {
+	@apply relative flex items-center justify-between px-5 py-5 md:py-8 md:px-[7.5rem] z-[1000] flex-row;
+}
+
+.mobile-menu {
+	@apply w-screen h-screen md:hidden bg-purple-darker left-0 top-[4.5rem] transform translate-x-full absolute justify-center grid pt-32;
+	height: calc(100vh - 72px);
+}
+
 /* SCROLLBAR */
 body::-webkit-scrollbar {
 	@apply hidden w-3 cursor-pointer md:flex;
@@ -334,10 +343,10 @@ body::-webkit-scrollbar-thumb:hover {
 .page-404__content {
 	@apply flex flex-col items-center px-5 text-center md:text-left md:items-start;
 }
-.page-404 > h1 {
+.page-404__content > h1 {
 	@apply mt-8 mb-3 text-3xl font-bold md:text-6xl;
 }
-.page-404 > p {
+.page-404__content > p {
 	@apply text-center md:text-left;
 }
 
@@ -361,9 +370,13 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 .staked-grid {
-	@apply grid grid-cols-1 gap-5 mt-10 md:grid-cols-2 md:gap-10;
+	/* @apply grid grid-cols-1 gap-5 mt-10 md:grid-cols-2 md:gap-10 place-content-center; */
+	@apply flex items-center flex-col justify-center gap-5 mt-10;
 }
 
+.staked-grid > .relative {
+	@apply w-40;
+}
 .home__form {
 	@apply flex flex-col items-center justify-center gap-5 max-w-[20.9375rem] w-full;
 }

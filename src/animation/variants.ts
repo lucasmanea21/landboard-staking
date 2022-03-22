@@ -78,3 +78,17 @@ export const slideUpMenuVariants = {
 		y: "320px",
 	},
 };
+
+export const mobileMenuVariants = {
+	hidden: {
+		x: "100%",
+		display: "grid",
+	},
+	visible: {
+		x: "0",
+		display: "grid",
+		transition: {
+			staggerChildren: 0.2,
+		},
+	},
+};

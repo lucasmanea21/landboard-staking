@@ -1,1 +1,1 @@
-export default ["calendar_star","chrome","cyborg","discord","expand","fan","history","info","info2","lander","landlord","leaderboard","map-pin","map","marketplace","money","palette","share","tag1","tag2","telegram","tile","twitter","unlock","user-location","wizard"];
+export default ["calendar_star","chrome","close","cyborg","discord","expand","fan","hamburger","history","info","info2","lander","landlord","leaderboard","map-pin","map","marketplace","money","palette","share","tag1","tag2","telegram","tile","twitter","unlock","user-location","wizard"];

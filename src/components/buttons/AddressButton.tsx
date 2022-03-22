@@ -1,4 +1,5 @@
 import { logout, useGetAccountInfo, useGetLoginInfo } from "@elrondnetwork/dapp-core";
+import { scaleInVariants } from "animation/variants";
 import axios from "axios";
 import { Icon } from "components/icons/Icon";
 import { AnimatePresence, motion } from "framer-motion/dist/framer-motion";
@@ -34,10 +35,6 @@ const AddressButton = () => {
 		} else navigate("/unlock");
 	};
 
-	const handleClickStakedLand = () => {
-		navigate(location.pathname.includes("/staked") ? "/" : "/staked");
-	};
-
 	useEffect(() => {
 		if (account.address != "") {
 			axios.get(`https://api.elrond.com/accounts/${account.address}/tokens`).then((res: any) => {
@@ -56,34 +53,21 @@ const AddressButton = () => {
 				</Button>
 			)}
 			<AnimatePresence>
-				{/* {isLoggedIn && (
-          <Button
-            className="filled min-w-[14rem]"
-            onClick={handleClickStakedLand}
-            animate
-          >
-            {location.pathname.includes("/staked")
-              ? "Back to Staking"
-              : "Staked Land"}
-          </Button>
-        )} */}
-			</AnimatePresence>
-			<AnimatePresence>
 				{isLoggedIn && (
-					<div className="flex">
-						<motion.div variants={variants} initial="hidden" animate="visible" className="account-button__address">
+					<motion.div className="flex" variants={scaleInVariants}>
+						<div className="account-button__address">
 							<span className="font-bold text-purple">
 								{address.slice(0, 6)}...{address.slice(-4)}
 							</span>
 							<div className="account-button__tag-container">
 								<span className="account-button__tag">{totalLandBalance} LAND</span>
 							</div>
-						</motion.div>
-						<Button className="filled w-[8.75rem]" onClick={handleLogout} animate>
+						</div>
+						<Button className="filled w-[8.75rem]" onClick={handleLogout}>
 							<Icon name="unlock" />
 							Disconnect
 						</Button>
-					</div>
+					</motion.div>
 				)}
 			</AnimatePresence>
 		</div>
