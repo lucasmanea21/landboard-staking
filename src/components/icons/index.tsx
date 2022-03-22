@@ -7,6 +7,7 @@ interface IconProps {
  color: string; 
 };
 
+export const CalendarStar: React.FC<IconProps> = (props) => <Icon {...props} name="calendar_star" />;
 export const Chrome: React.FC<IconProps> = (props) => <Icon {...props} name="chrome" />;
 export const Cyborg: React.FC<IconProps> = (props) => <Icon {...props} name="cyborg" />;
 export const Discord: React.FC<IconProps> = (props) => <Icon {...props} name="discord" />;
