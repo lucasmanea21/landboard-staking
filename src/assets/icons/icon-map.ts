@@ -1,3 +1,4 @@
+import { ReactComponent as CalendarStar } from './calendar_star.svg';
 import { ReactComponent as Chrome } from './chrome.svg';
 import { ReactComponent as Cyborg } from './cyborg.svg';
 import { ReactComponent as Discord } from './discord.svg';
@@ -25,6 +26,7 @@ import { ReactComponent as UserLocation } from './user-location.svg';
 import { ReactComponent as Wizard } from './wizard.svg';
 
 export default {
+"calendar_star": CalendarStar, 
 "chrome": Chrome, 
 "cyborg": Cyborg, 
 "discord": Discord, 

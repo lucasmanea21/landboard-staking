@@ -16,22 +16,27 @@ const plans = [
 	{
 		title: "Lander",
 		days: 15,
+		apr: 50,
 	},
 	{
 		title: "Fan",
 		days: 30,
+		apr: 52,
 	},
 	{
 		title: "LandLord",
 		days: 60,
+		apr: 55,
 	},
 	{
 		title: "Wizard",
 		days: 120,
+		apr: 58,
 	},
 	{
 		title: "Cyborg",
 		days: 240,
+		apr: 64,
 	},
 ];
 
@@ -134,8 +139,8 @@ const Home = () => {
 						}
 					/>
 					<Input
-						placeholder="erd1dl8ucer...4d74dfqwy7ntn"
-						label="Referral Code (Paste address)"
+						placeholder="TOTHEMOON"
+						label="Referral Code"
 						value={referralCode}
 						onChange={handleChangeReferralCode}
 					/>
@@ -168,9 +173,9 @@ const Home = () => {
 					CHOOSE YOUR <span className="text-purple">PLAN</span>
 				</motion.h1>
 				<motion.p variants={fadeInVariants}>Become a marketing guru through land advertisement</motion.p>
-				<motion.span className="text-sm mb-2" variants={fadeInVariants}>
+				<motion.span className="mb-2 text-sm" variants={fadeInVariants}>
 					Check APRs for each plan{" "}
-					<a className="text-purple underline" href="https://twitter.com/landboard_io/status/1505272042114924547">
+					<a className="underline text-purple" href="https://twitter.com/landboard_io/status/1505272042114924547">
 						here.
 					</a>
 				</motion.span>

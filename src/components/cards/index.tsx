@@ -7,6 +7,7 @@ import { Icon as LBIcon } from "components/icons/Icon";
 interface PlanCardProps {
 	title: string;
 	days: number;
+	apr: number;
 	stakedLand?: number;
 	isActive: boolean;
 	Icon?: ReactNode;
@@ -53,13 +54,22 @@ const CheckMark = () => {
 	);
 };
 
-const PlanCard = ({ title, days, isActive, Icon, handleSelect, stakedLand }: PlanCardProps) => {
+const PlanCard = ({ title, days, apr, isActive, Icon, handleSelect, stakedLand }: PlanCardProps) => {
 	return (
 		<motion.div variants={scaleFadeInVariants} className={`plan-card ${isActive ? "active" : ""}`}>
 			<AnimatePresence>{isActive ? <CheckMark /> : null}</AnimatePresence>
 			{Icon && Icon}
 			<h2>{title}</h2>
-			<span className="plan-card__days">{days} days</span>
+			<ul>
+				<li className="plan-card__days">
+					<LBIcon name="calendar_star" primary />
+					<span>{days} days</span>
+				</li>
+				<li className="plan-card__apr">
+					<LBIcon name="money" primary />
+					<span>APR: {apr}%</span>
+				</li>
+			</ul>
 			<Button onClick={handleSelect} className={isActive ? "filled" : "outline"}>
 				{isActive ? "Selected" : "Select"}
 			</Button>
