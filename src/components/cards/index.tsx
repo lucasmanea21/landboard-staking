@@ -2,10 +2,12 @@ import { scaleFadeInVariants } from "animation/variants";
 import Button from "components/buttons";
 import { motion, AnimatePresence } from "framer-motion/dist/framer-motion";
 import { ReactNode } from "react";
+import { Icon as LBIcon } from "components/icons/Icon";
 
 interface PlanCardProps {
 	title: string;
 	days: number;
+	stakedLand?: number;
 	isActive: boolean;
 	Icon?: ReactNode;
 	handleSelect?: () => void;
@@ -51,16 +53,22 @@ const CheckMark = () => {
 	);
 };
 
-const PlanCard = ({ title, days, isActive, Icon, handleSelect }: PlanCardProps) => {
+const PlanCard = ({ title, days, isActive, Icon, handleSelect, stakedLand }: PlanCardProps) => {
 	return (
 		<motion.div variants={scaleFadeInVariants} className={`plan-card ${isActive ? "active" : ""}`}>
 			<AnimatePresence>{isActive ? <CheckMark /> : null}</AnimatePresence>
 			{Icon && Icon}
 			<h2>{title}</h2>
-			<span>{days} days</span>
+			<span className="plan-card__days">{days} days</span>
 			<Button onClick={handleSelect} className={isActive ? "filled" : "outline"}>
 				{isActive ? "Selected" : "Select"}
 			</Button>
+			{stakedLand && (
+				<div className="plan-card__staked-info">
+					<LBIcon name="info" primary width={24} />
+					<span>{stakedLand} LAND staked </span>
+				</div>
+			)}
 		</motion.div>
 	);
 };

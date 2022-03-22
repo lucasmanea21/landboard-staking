@@ -4,6 +4,7 @@ import { fadeInVariants, motionContainerProps } from "animation/variants";
 import StakeContract from "api";
 import axios from "axios";
 import Button from "components/buttons";
+import TokenPicker from "components/buttons/TokenPicker";
 import PlanCard from "components/cards";
 import { Icon } from "components/icons/Icon";
 import Input from "components/input";
@@ -50,6 +51,7 @@ const Home = () => {
 
 	const [stakedQuantity, setStakedQuantity] = useState("");
 	const [referralCode, setReferralCode] = useState("");
+	const [token, setToken] = useState("LAND");
 	const [totalLandBalance, setTotalLandBalance] = useState(0);
 	const [activeDay, setActiveDay] = useState(15);
 	const [stakeContract, setStakeContract] = useState<null | StakeContract>(null);
@@ -79,6 +81,8 @@ const Home = () => {
 		stakeContract?.createStakeTransaction();
 	};
 
+	const handleSwitchToken = (token: string) => setToken(token);
+
 	useEffect(() => {
 		if (account.address != "") {
 			setStakeContract(new StakeContract(account.address));
@@ -104,10 +108,11 @@ const Home = () => {
 			<div className="stake-container">
 				<div className="home__title">
 					<motion.h1 variants={fadeInVariants}>
-						EARN - STAKE YOUR <span className="text-purple">LAND</span>
+						EARN - STAKE YOUR <span className="text-purple">{token}</span>
 					</motion.h1>
 					<motion.p variants={fadeInVariants}>Starts on 20 March 2022 20:00 UTC</motion.p>
 				</div>
+				<TokenPicker token={token} tokens={["LAND", "LKLAND"]} onClick={handleSwitchToken} />
 				<motion.div className="home__form" onSubmit={() => {}} {...motionContainerProps}>
 					<Input
 						placeholder="0"
@@ -134,7 +139,7 @@ const Home = () => {
 					/>
 					{address && (
 						<motion.p variants={fadeInVariants} className="home__form--balance">
-							LAND Balance: <span>{totalLandBalance}</span>
+							{token} Balance: <span>{totalLandBalance}</span>
 						</motion.p>
 					)}
 					<motion.div variants={fadeInVariants} className="home__form--info">
@@ -146,7 +151,7 @@ const Home = () => {
 							</span>
 						) : (
 							<a href="https://presale.landboard.io">
-								<span>No LAND, no problem, buy some in the presale here.</span>
+								<span>No {token}, no problem, buy some in the presale here.</span>
 							</a>
 						)}
 					</motion.div>
@@ -158,11 +163,11 @@ const Home = () => {
 
 			<motion.div className="home__title">
 				<motion.h1 variants={fadeInVariants}>
-					CHOOSE YOUR <span className="text-purple">LAND</span>
+					CHOOSE YOUR <span className="text-purple">PLAN</span>
 				</motion.h1>
 				<motion.p variants={fadeInVariants}>Become a marketing guru through land advertisement</motion.p>
 				<motion.span className="text-sm mb-2" variants={fadeInVariants}>
-					Check APRs for each plan {" "}
+					Check APRs for each plan{" "}
 					<a className="text-purple underline" href="https://twitter.com/landboard_io/status/1505272042114924547">
 						here.
 					</a>
