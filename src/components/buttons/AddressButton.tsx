@@ -17,7 +17,7 @@ const variants = {
 	},
 };
 
-const AddressButton = () => {
+const AddressButton = ({ onClick }: any) => {
 	const { isLoggedIn } = useGetLoginInfo();
 	const { address, account } = useGetAccountInfo();
 	const [totalLandBalance, setTotalLandBalance] = useState(0);
@@ -32,7 +32,10 @@ const AddressButton = () => {
 	const handleUnlock = () => {
 		if (isInUnlock) {
 			navigate("/");
-		} else navigate("/unlock");
+		} else {
+			navigate("/unlock");
+		}
+		onClick();
 	};
 
 	useEffect(() => {

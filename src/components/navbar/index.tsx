@@ -71,7 +71,7 @@ const NavBar = () => {
 				variants={mobileMenuVariants}>
 				<ul className="flex flex-col items-center gap-12 max-w-[12.5rem]">
 					<motion.li variants={scaleInVariants}>
-						<AddressButton />
+						<AddressButton onClick={handleNav} />
 					</motion.li>
 					{menuItems.map((item) => (
 						<motion.li variants={scaleInVariants} key={item.label ?? item}>
@@ -105,7 +105,7 @@ const NavBar = () => {
 					</motion.a>
 				</div>
 			</motion.div>
-			{!isMobile && <AddressButton />}
+			{!isMobile && <AddressButton onClick={handleNav} />}
 		</motion.nav>
 	);
 };
