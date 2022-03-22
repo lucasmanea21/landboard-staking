@@ -10,6 +10,7 @@ import { Icon } from "components/icons/Icon";
 import Input from "components/input";
 import { motion } from "framer-motion/dist/framer-motion";
 import { useEffect, useState } from "react";
+import { useMedia } from "react-use";
 
 const plans = [
 	{
@@ -48,6 +49,7 @@ const LabelButton = (props: any) => (
 
 const Home = () => {
 	const { address, account, ...rest } = useGetAccountInfo();
+	const isMobile = useMedia("(max-width: 768px)");
 
 	const [stakedQuantity, setStakedQuantity] = useState("");
 	const [referralCode, setReferralCode] = useState("");
@@ -173,15 +175,20 @@ const Home = () => {
 					</a>
 				</motion.span>
 				<div className="plan-grid">
-					{plans.map((plan) => (
-						<PlanCard
-							{...plan}
-							key={plan.title}
-							isActive={activeDay === plan.days}
-							Icon={<Icon name={plan.title.toLowerCase()} primary />}
-							handleSelect={() => setActiveDay(plan.days)}
-						/>
-					))}
+					<motion.div
+						className="plan-grid__content"
+						drag={isMobile ? "x" : false}
+						dragConstraints={{ left: -800, right: 20 }}>
+						{plans.map((plan) => (
+							<PlanCard
+								{...plan}
+								key={plan.title}
+								isActive={activeDay === plan.days}
+								Icon={<Icon name={plan.title.toLowerCase()} primary />}
+								handleSelect={() => setActiveDay(plan.days)}
+							/>
+						))}
+					</motion.div>
 				</div>
 			</motion.div>
 		</motion.div>

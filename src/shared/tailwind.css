@@ -209,7 +209,12 @@ input:focus {
 }
 
 .plan-grid {
-	@apply grid items-center justify-center gap-5 md:grid-rows-2 md:grid-cols-3;
+	@apply relative h-60 md:h-full;
+}
+
+.plan-grid__content {
+	@apply absolute md:relative flex md:items-center md:grid md:justify-center gap-5 md:grid-rows-2 md:grid-cols-3;
+	/* // absolute flex gap-5 md:grid md:items-center md:justify-center md:grid-rows-2 md:grid-cols-3; */
 }
 
 /* CAROUSEL */
@@ -334,6 +339,10 @@ body::-webkit-scrollbar-thumb:hover {
 
 .dracula {
 	@apply w-[20.625rem] h-[16.8125rem] md:h-[44rem] md:w-[51rem];
+}
+
+.home {
+	@apply overflow-hidden;
 }
 
 .home,
