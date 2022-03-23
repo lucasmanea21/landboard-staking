@@ -10,24 +10,15 @@ interface TokenPickerProps {
 const TokenPicker = ({ onClick, token, tokens }: TokenPickerProps) => {
 	return (
 		<div className="token-picker">
-			{tokens.map((tkn, i) =>
-				i < tokens.length - 1 ? (
-					<motion.button
-						key={tkn}
-						variants={scaleFadeInVariants}
-						className={`token-picker__button ${tkn === token ? "active" : ""}`}
-						onClick={() => onClick(tkn)}>
-						STAKE {tkn}
-					</motion.button>
-				) : (
-					<motion.div className="token-picker__limited" variants={scaleFadeInVariants}>
-						<span>LIMITED: 7 days left</span>
-						<button className={`token-picker__button ${tkn === token ? "active" : ""}`} onClick={() => onClick(tkn)}>
-							STAKE {tkn}
-						</button>
-					</motion.div>
-				)
-			)}
+			{tokens.map((tkn, i) => (
+				<motion.button
+					key={tkn}
+					variants={scaleFadeInVariants}
+					className={`token-picker__button ${tkn === token ? "active" : ""}`}
+					onClick={() => onClick(tkn)}>
+					STAKE {tkn}
+				</motion.button>
+			))}
 			<motion.div className="token-picker__line" variants={fadeInVariants}></motion.div>
 		</div>
 	);
