@@ -9,10 +9,10 @@ import PlanCard from "components/cards";
 import { Icon } from "components/icons/Icon";
 import Input from "components/input";
 import { motion } from "framer-motion/dist/framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useMedia } from "react-use";
 
-const plans = [
+const landPlans = [
 	{
 		title: "Lander",
 		days: 15,
@@ -108,6 +108,8 @@ const Home = () => {
 		}
 	}, [stakeContract]);
 
+	const plans = useMemo(() => landPlans.map((p) => ({ ...p, apr: token === "LAND" ? p.apr : p.apr * 0.75 })), [token]);
+	console.log("plans", plans);
 	const disabled = true || stakedQuantity === "0" || !stakedQuantity || !address || totalLandBalance < 1000;
 
 	return (
@@ -153,8 +155,8 @@ const Home = () => {
 						<Icon name="info" primary />
 						{totalLandBalance > 0 ? (
 							<span>
-								There will be a 9 - 10 days unbonding period when you unstake. You will be able to withdraw your funds
-								only after that period.
+								There will be a 5 days unbonding time and 30% penalty on rewards for withdrawing before the chosen
+								timestamp ends.
 							</span>
 						) : (
 							<a href="https://presale.landboard.io">
