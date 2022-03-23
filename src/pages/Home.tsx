@@ -1,5 +1,4 @@
 import { useGetAccountInfo } from "@elrondnetwork/dapp-core";
-import { ContractCallPayloadBuilder } from "@elrondnetwork/erdjs/out";
 import { fadeInVariants, motionContainerProps } from "animation/variants";
 import StakeContract from "api";
 import axios from "axios";
@@ -60,6 +59,10 @@ const Home = () => {
 	const [referralCode, setReferralCode] = useState("");
 	const [token, setToken] = useState("LAND");
 	const [totalLandBalance, setTotalLandBalance] = useState(0);
+	const [totalLkLandBalance, setTotalLkLandBalance] = useState({
+		"LKLAND-6cf78e": 0,
+		"LKLAND-c617f7": 0,
+	});
 	const [activeDay, setActiveDay] = useState(15);
 	const [stakeContract, setStakeContract] = useState<null | StakeContract>(null);
 
@@ -96,7 +99,13 @@ const Home = () => {
 			axios.get(`https://${environment}api.elrond.com/accounts/${account.address}/tokens`).then((res: any) => {
 				if (res.data?.length > 0) {
 					const tokens = res.data.filter((a: any) => a?.identifier === "LAND-40f26f" || a?.ticker === "LAND-40f26f");
+					const lkLand1 = res.data.filter((a: any) => a?.identifier === "LKLAND-6cf78e");
+					const lkLand2 = res.data.filter((a: any) => a?.identifier === "LKLAND-c617f7");
 					setTotalLandBalance(tokens.length > 0 ? tokens[0].balance / 10 ** 18 : 0);
+					setTotalLkLandBalance({
+						"LKLAND-6cf78e": lkLand1.length > 0 ? lkLand1[0].balance / 10 ** 18 : 0,
+						"LKLAND-c617f7": lkLand2.length > 0 ? lkLand2[0].balance / 10 ** 18 : 0,
+					});
 				}
 			});
 		}
@@ -109,7 +118,6 @@ const Home = () => {
 	}, [stakeContract]);
 
 	const plans = useMemo(() => landPlans.map((p) => ({ ...p, apr: token === "LAND" ? p.apr : p.apr * 0.75 })), [token]);
-	console.log("plans", plans);
 	const disabled = true || stakedQuantity === "0" || !stakedQuantity || !address || totalLandBalance < 1000;
 
 	return (
