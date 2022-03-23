@@ -143,7 +143,7 @@ const Home = () => {
 					<motion.h1 variants={fadeInVariants}>
 						EARN - STAKE YOUR <span className="text-purple">{selectedToken}</span>
 					</motion.h1>
-					<motion.p variants={fadeInVariants}>Starts on 25 March 2022 20:00 UTC</motion.p>
+					<motion.p variants={fadeInVariants}>Starts on 25 March 2022</motion.p>
 				</div>
 				<TokenPicker token={selectedToken} tokens={["LAND", "LKLAND"]} onClick={handleSwitchToken} />
 				<motion.div className="home__form" onSubmit={() => {}} {...motionContainerProps}>
