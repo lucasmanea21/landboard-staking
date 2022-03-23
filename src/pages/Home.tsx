@@ -1,14 +1,14 @@
 import { useGetAccountInfo } from "@elrondnetwork/dapp-core";
-import { ContractCallPayloadBuilder } from "@elrondnetwork/erdjs/out";
 import { fadeInVariants, motionContainerProps } from "animation/variants";
 import StakeContract from "api";
 import axios from "axios";
 import Button from "components/buttons";
 import TokenPicker from "components/buttons/TokenPicker";
 import PlanCard from "components/cards";
+import CheckboxGroup from "components/checkbox/CheckboxGroup";
 import { Icon } from "components/icons/Icon";
 import Input from "components/input";
-import { motion } from "framer-motion/dist/framer-motion";
+import { AnimatePresence, motion } from "framer-motion/dist/framer-motion";
 import { useEffect, useState } from "react";
 import { useMedia } from "react-use";
 
@@ -52,13 +52,27 @@ const LabelButton = (props: any) => (
 	</button>
 );
 
+const lklandOptions = [
+	{
+		label: "LKLAND-6cf78e",
+		value: "LKLAND-6cf78e",
+		checked: true,
+	},
+	{
+		label: "LKLAND-c617f7",
+		value: "LKLAND-c617f7",
+		checked: false,
+	},
+];
+
 const Home = () => {
 	const { address, account, ...rest } = useGetAccountInfo();
 	const isMobile = useMedia("(max-width: 768px)");
 
 	const [stakedQuantity, setStakedQuantity] = useState("");
 	const [referralCode, setReferralCode] = useState("");
-	const [token, setToken] = useState("LAND");
+	const [selectedToken, setSelectedToken] = useState("LAND");
+	const [lklandType, setLklandType] = useState("LKLAND-6cf78e");
 	const [totalLandBalance, setTotalLandBalance] = useState(0);
 	const [activeDay, setActiveDay] = useState(15);
 	const [stakeContract, setStakeContract] = useState<null | StakeContract>(null);
@@ -88,7 +102,7 @@ const Home = () => {
 		stakeContract?.createStakeTransaction();
 	};
 
-	const handleSwitchToken = (token: string) => setToken(token);
+	const handleSwitchToken = (token: string) => setSelectedToken(token);
 
 	useEffect(() => {
 		if (account.address != "") {
@@ -110,16 +124,20 @@ const Home = () => {
 
 	const disabled = true || stakedQuantity === "0" || !stakedQuantity || !address || totalLandBalance < 1000;
 
+	const handleSelectLkLand = (options: any[]) => {
+		setLklandType(options[0].value);
+	};
+
 	return (
 		<motion.div className="home" {...motionContainerProps}>
 			<div className="stake-container">
 				<div className="home__title">
 					<motion.h1 variants={fadeInVariants}>
-						EARN - STAKE YOUR <span className="text-purple">{token}</span>
+						EARN - STAKE YOUR <span className="text-purple">{selectedToken}</span>
 					</motion.h1>
 					<motion.p variants={fadeInVariants}>Starts on 20 March 2022 20:00 UTC</motion.p>
 				</div>
-				<TokenPicker token={token} tokens={["LAND", "LKLAND"]} onClick={handleSwitchToken} />
+				<TokenPicker token={selectedToken} tokens={["LAND", "LKLAND"]} onClick={handleSwitchToken} />
 				<motion.div className="home__form" onSubmit={() => {}} {...motionContainerProps}>
 					<Input
 						placeholder="0"
@@ -146,9 +164,14 @@ const Home = () => {
 					/>
 					{address && (
 						<motion.p variants={fadeInVariants} className="home__form--balance">
-							{token} Balance: <span>{totalLandBalance}</span>
+							{selectedToken} Balance: <span>{totalLandBalance}</span>
 						</motion.p>
 					)}
+					<AnimatePresence>
+						{selectedToken !== "LAND" && (
+							<CheckboxGroup label="Tokens" options={lklandOptions} onChange={handleSelectLkLand} single />
+						)}
+					</AnimatePresence>
 					<motion.div variants={fadeInVariants} className="home__form--info">
 						<Icon name="info" primary />
 						{totalLandBalance > 0 ? (
@@ -158,7 +181,7 @@ const Home = () => {
 							</span>
 						) : (
 							<a href="https://presale.landboard.io">
-								<span>No {token}, no problem, buy some in the presale here.</span>
+								<span>No {selectedToken}, no problem, buy some in the presale here.</span>
 							</a>
 						)}
 					</motion.div>

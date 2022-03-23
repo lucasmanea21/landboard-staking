@@ -21,12 +21,14 @@ const NavBar = () => {
 	const [isOpen, setIsOpen] = useState(false);
 
 	const handleNav = (item: any) => {
-		if (isOpen === true) {
-			setIsOpen(false);
-			document.body.classList.remove("overflow-hidden");
-		} else {
-			setIsOpen(true);
-			document.body.classList.add("overflow-hidden");
+		if (isMobile) {
+			if (isOpen === true) {
+				setIsOpen(false);
+				document.body.classList.remove("overflow-hidden");
+			} else {
+				setIsOpen(true);
+				document.body.classList.add("overflow-hidden");
+			}
 		}
 	};
 
