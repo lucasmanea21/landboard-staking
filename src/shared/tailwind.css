@@ -417,3 +417,7 @@ body::-webkit-scrollbar-thumb:hover {
 .home__title > h1 {
 	@apply text-center;
 }
+
+.mobile-size {
+	@apply mx-auto w-60 mt-8;
+}

@@ -189,9 +189,11 @@ const Home = () => {
 							</a>
 						)}
 					</motion.div>
-					<Button className="filled" onClick={handleStake} disabled={disabled} animate>
-						Stake Now
-					</Button>
+					{!isMobile && (
+						<Button className="filled" onClick={handleStake} disabled={disabled} animate>
+							Stake Now
+						</Button>
+					)}
 				</motion.div>
 			</div>
 
@@ -222,6 +224,11 @@ const Home = () => {
 						))}
 					</motion.div>
 				</div>
+				{isMobile && (
+					<Button className="filled" containerClassname="mobile-size" onClick={handleStake} disabled={disabled} animate>
+						Stake Now
+					</Button>
+				)}
 			</motion.div>
 		</motion.div>
 	);
