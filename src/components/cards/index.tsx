@@ -56,7 +56,10 @@ const CheckMark = () => {
 
 const PlanCard = ({ title, days, apr, isActive, Icon, handleSelect, stakedLand }: PlanCardProps) => {
 	return (
-		<motion.div variants={scaleFadeInVariants} className={`plan-card ${isActive ? "active" : ""}`}>
+		<motion.div
+			variants={scaleFadeInVariants}
+			{...{ initial: "hidden", whileInView: "visible", viewport: { once: true } }}
+			className={`plan-card ${isActive ? "active" : ""}`}>
 			<AnimatePresence>{isActive ? <CheckMark /> : null}</AnimatePresence>
 			{Icon && Icon}
 			<h2>{title}</h2>

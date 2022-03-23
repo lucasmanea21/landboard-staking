@@ -122,10 +122,14 @@ const Home = () => {
 		}
 	}, [stakeContract]);
 
-	const plans = useMemo(() => landPlans.map((p) => ({ ...p, apr: selectedToken === "LAND" ? p.apr : p.apr * 0.75 })), [
-		selectedToken,
-	]);
-	console.log("plans", plans);
+	const plans = useMemo(
+		() =>
+			landPlans
+				.filter((_, index) => (selectedToken === "LKLAND" ? index > 0 : true))
+				.map((p) => ({ ...p, apr: selectedToken === "LAND" ? p.apr : p.apr * 0.25 })),
+		[selectedToken]
+	);
+
 	const disabled = true || stakedQuantity === "0" || !stakedQuantity || !address || totalLandBalance < 1000;
 
 	const handleSelectLkLand = (options: any[]) => {
@@ -139,7 +143,7 @@ const Home = () => {
 					<motion.h1 variants={fadeInVariants}>
 						EARN - STAKE YOUR <span className="text-purple">{selectedToken}</span>
 					</motion.h1>
-					<motion.p variants={fadeInVariants}>Starts on 20 March 2022 20:00 UTC</motion.p>
+					<motion.p variants={fadeInVariants}>Starts on 25 March 2022 20:00 UTC</motion.p>
 				</div>
 				<TokenPicker token={selectedToken} tokens={["LAND", "LKLAND"]} onClick={handleSwitchToken} />
 				<motion.div className="home__form" onSubmit={() => {}} {...motionContainerProps}>
@@ -213,15 +217,17 @@ const Home = () => {
 						className="plan-grid__content"
 						drag={isMobile ? "x" : false}
 						dragConstraints={{ left: -800, right: 20 }}>
-						{plans.map((plan) => (
-							<PlanCard
-								{...plan}
-								key={plan.title}
-								isActive={activeDay === plan.days}
-								Icon={<Icon name={plan.title.toLowerCase()} primary />}
-								handleSelect={() => setActiveDay(plan.days)}
-							/>
-						))}
+						<AnimatePresence>
+							{plans.map((plan) => (
+								<PlanCard
+									{...plan}
+									key={plan.title}
+									isActive={activeDay === plan.days}
+									Icon={<Icon name={plan.title.toLowerCase()} primary />}
+									handleSelect={() => setActiveDay(plan.days)}
+								/>
+							))}
+						</AnimatePresence>
 					</motion.div>
 				</div>
 				{isMobile && (
