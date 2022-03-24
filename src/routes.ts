@@ -1,5 +1,6 @@
 import withPageTitle from "components/seo/PageTitle";
 import Home from "pages/Home";
+import Referrals from "pages/Referrals";
 import Staked from "pages/Staked";
 
 export const routeNames = {
@@ -7,7 +8,7 @@ export const routeNames = {
 	unlock: "/unlock",
 	ledger: "/ledger",
 	walletconnect: "/walletconnect",
-	rewards: "/rewards",
+	referrals: "/referrals",
 	staking: "/staking",
 	staked: "/staked",
 };
@@ -20,8 +21,8 @@ const routes: Array<any> = [
 		authenticatedRoute: true,
 	},
 	{
-		path: routeNames.rewards,
-		component: Staked,
+		path: routeNames.referrals,
+		component: Referrals,
 		exact: true,
 		authenticatedRoute: true,
 	},
