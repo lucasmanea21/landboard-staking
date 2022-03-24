@@ -148,7 +148,7 @@ const Home = () => {
 	const disabled = true || stakedQuantity === "0" || !stakedQuantity || !address || balance < 1000;
 
 	const handleSelectLkLand = (options: any[]) => {
-		setLklandType(options[0].value);
+		setLklandType(options.filter((a: any) => a.checked)[0].value);
 	};
 
 	return (
@@ -179,15 +179,24 @@ const Home = () => {
 							/>
 						}
 					/>
-					<Input
-						placeholder="TOTHEMOON"
-						label="Referral Code"
-						value={referralCode}
-						onChange={handleChangeReferralCode}
-					/>
+					{selectedToken === "LAND" && (
+						<motion.span className="text-sm text-purple" ariants={fadeInVariants}>
+							Stake at least 300 land in order to use referral code. Referral code can only be used once
+						</motion.span>
+					)}
+					<AnimatePresence>
+						{selectedToken === "LAND" && (
+							<Input
+								placeholder="TOTHEMOON"
+								label="Referral Code"
+								value={referralCode}
+								onChange={handleChangeReferralCode}
+							/>
+						)}
+					</AnimatePresence>
 					{address && (
 						<motion.p variants={fadeInVariants} className="home__form--balance">
-							{selectedToken} Balance: <span>{balance}</span>
+							{selectedToken === "LAND" ? "LAND" : lklandType} Balance: <span>{balance}</span>
 						</motion.p>
 					)}
 					<AnimatePresence>

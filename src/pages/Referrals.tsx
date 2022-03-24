@@ -75,7 +75,10 @@ const Referrals = () => {
 				<motion.h1 variants={fadeInVariants}>
 					REFERRAL <span className="text-purple">&</span> REWARDS
 				</motion.h1>
-				<motion.p variants={fadeInVariants}>Share your code (herotag or address) and get awesome rewards</motion.p>
+				<motion.p variants={fadeInVariants}>
+					Earn 150 LAND and 0.2% APR increase for each referred user that stakes at least 300 LAND. Ends on 30 March.
+					Rewards will be sent then.
+				</motion.p>
 			</motion.div>
 
 			<div className="rewards-container">
