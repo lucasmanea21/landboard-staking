@@ -12,6 +12,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useMedia } from "react-use";
 import useStakeContract from "utils/useStakeContract";
+import useTimeUntil from "utils/useTimeUntil";
 
 const landPlans = [
 	{
@@ -62,17 +63,24 @@ const lklandOptions = [
 		checked: false,
 	},
 ];
+//1648231200000
 
 const Home = () => {
 	const { address, account } = useGetAccountInfo();
-	const isMobile = useMedia("(max-width: 768px)");
 	const { network } = useGetNetworkConfig();
+	const { stakeContract } = useStakeContract();
+
+	const isMobile = useMedia("(max-width: 768px)");
+
 	const [searchParams] = useSearchParams();
 
-	const [stakedQuantity, setStakedQuantity] = useState("");
+	// const { timeLeft } = useTimeUntil(1648231200000);
+	const { timeLeft } = useTimeUntil(1648159440000);
+
+	const [stakedLandQuantity, setStakedLandQuantity] = useState("");
 	const [referralCode, setReferralCode] = useState("");
 	const [selectedToken, setSelectedToken] = useState("LAND");
-	const [lklandType, setLklandType] = useState<any>("LKLAND-6cf78e");
+	const [lklandTypeId, setLklandType] = useState<any>("LKLAND-6cf78e");
 	const [stakeTypes, setStakeTypes] = useState<any[]>([]);
 	const [totalLandBalance, setTotalLandBalance] = useState(0);
 	const [totalLkLandBalance, setTotalLkLandBalance] = useState({
@@ -80,7 +88,6 @@ const Home = () => {
 		"LKLAND-c617f7": 0,
 	});
 	const [activeDay, setActiveDay] = useState(15);
-	const { stakeContract } = useStakeContract();
 
 	const handleChangeStakedQuantity = (e: any) => {
 		const regex = RegExp(/[0-9]+/g);
@@ -91,11 +98,11 @@ const Home = () => {
 			const value = parseInt(e.target.value);
 			if (value > 0 && value <= 20000) {
 				newStakedQuantity = e.target.value;
-				setStakedQuantity(newStakedQuantity);
+				setStakedLandQuantity(newStakedQuantity);
 			}
 		}
 		if (e.target.value === "") {
-			setStakedQuantity("");
+			setStakedLandQuantity("");
 		}
 	};
 
@@ -104,7 +111,10 @@ const Home = () => {
 	};
 
 	const handleStake = () => {
-		stakeContract?.createStakeTransaction();
+		const tokenId = selectedToken === "LAND" ? "LAND-40f26f" : lklandTypeId;
+		const planIndex = landPlans.map((plan) => plan.days).indexOf(activeDay);
+		const stakeTypeId = stakeTypes[planIndex];
+		stakeContract?.createStakeTransaction(tokenId, planIndex, parseInt(stakedLandQuantity));
 	};
 
 	const handleSwitchToken = (token: string) => setSelectedToken(token);
@@ -134,7 +144,6 @@ const Home = () => {
 		if (stakeContract) {
 			stakeContract.getStakeTypes().then((stakeTypes: any) => {
 				console.log("stakeTypes", stakeTypes[0]);
-				console.log("stakeTypes", stakeTypes[0].apy.valueOf());
 				setStakeTypes(stakeTypes);
 			});
 			// const stakerAddresses = await stakeContract.getStakerAddresses();
@@ -151,8 +160,8 @@ const Home = () => {
 	);
 
 	// @ts-ignore
-	const balance = selectedToken === "LAND" ? totalLandBalance : totalLkLandBalance[lklandType];
-	const disabled = true || stakedQuantity === "0" || !stakedQuantity || !address || balance < 1000;
+	const balance = selectedToken === "LAND" ? totalLandBalance : totalLkLandBalance[lklandTypeId];
+	const disabled = timeLeft > 0 || stakedLandQuantity === "0" || !stakedLandQuantity || !address || balance < 1000;
 
 	const handleSelectLkLand = (options: any[]) => {
 		setLklandType(options.filter((a: any) => a.checked)[0].value);
@@ -172,7 +181,7 @@ const Home = () => {
 					<Input
 						placeholder="0"
 						label="Amount to Stake"
-						value={stakedQuantity}
+						value={stakedLandQuantity}
 						onChange={handleChangeStakedQuantity}
 						LabelButton={
 							<LabelButton
@@ -186,6 +195,13 @@ const Home = () => {
 							/>
 						}
 					/>
+					<AnimatePresence>
+						{address && (
+							<motion.p variants={fadeInVariants} className="home__form--balance">
+								{selectedToken === "LAND" ? "LAND" : lklandTypeId} Balance: <span>{balance}</span>
+							</motion.p>
+						)}
+					</AnimatePresence>
 					{selectedToken === "LAND" && (
 						<motion.span className="text-sm text-purple" ariants={fadeInVariants}>
 							Stake at least 300 land in order to use referral code. Referral code can only be used once
@@ -201,11 +217,6 @@ const Home = () => {
 							/>
 						)}
 					</AnimatePresence>
-					{address && (
-						<motion.p variants={fadeInVariants} className="home__form--balance">
-							{selectedToken === "LAND" ? "LAND" : lklandType} Balance: <span>{balance}</span>
-						</motion.p>
-					)}
 					<AnimatePresence>
 						{selectedToken !== "LAND" && (
 							<CheckboxGroup label="Tokens" options={lklandOptions} onChange={handleSelectLkLand} single />

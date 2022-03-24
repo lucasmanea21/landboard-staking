@@ -14,7 +14,7 @@ const convertToHex = (str: string) => {
 
 export const CONTRACT_ADDRESS = "erd1qqqqqqqqqqqqqpgqg5ezkspemx2eelkyc2aj82fmua7t7c564dfqqzre7t";
 
-export const TOKEN_ID = "SVEN-4b35b0";
+export const TOKEN_ID = "LAND-40f26f";
 export const TOKEN_ID_ONLY_HEX = convertToHex(TOKEN_ID);
 export const TOKEN_ID_HEX = "0x" + TOKEN_ID_ONLY_HEX;
 export const REFERRRAL_ACTIVATION_AMOUNT = 100000000000000000000;

@@ -9524,6 +9524,11 @@ parse-json@^5.0.0:
     json-parse-even-better-errors "^2.3.0"
     lines-and-columns "^1.1.6"
 
+parse-ms@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/parse-ms/-/parse-ms-3.0.0.tgz#3ea24a934913345fcc3656deda72df921da3a70e"
+  integrity sha512-Tpb8Z7r7XbbtBTrM9UhpkzzaMrqA2VXMT3YChzYltwV3P3pM6t8wl7TvpMnSTosz1aQAdVib7kdoys7vYOPerw==
+
 parse5@6.0.1:
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/parse5/-/parse5-6.0.1.tgz#e1a1c085c569b3dc08321184f19a39cc27f7c30b"
@@ -11017,6 +11022,11 @@ react-universal-interface@^0.6.2:
   version "0.6.2"
   resolved "https://registry.yarnpkg.com/react-universal-interface/-/react-universal-interface-0.6.2.tgz#5e8d438a01729a4dbbcbeeceb0b86be146fe2b3b"
   integrity sha512-dg8yXdcQmvgR13RIlZbTRQOoUrDciFVoSBZILwjE2LFISxZZ8loVJKAkuzswl5js8BHda79bIb2b84ehU8IjXw==
+
+react-use-countdown@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/react-use-countdown/-/react-use-countdown-0.1.1.tgz#ec808deeb163c1ff4aca47a1c6b4f534fdda862d"
+  integrity sha512-+DLH4Kbw8UL0CnMIXBBpYLFkcDl7yB4qayuGC/p4U3mQ86Rvob/5eKxjlWhQmScrOFTkNJVKKjoFxacOPigmXw==
 
 react-use@^17.3.2:
   version "17.3.2"

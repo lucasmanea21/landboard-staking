@@ -33,12 +33,12 @@ export default class StakeContract {
 		this.provider = provider;
 	}
 
-	createStakeTransaction = async () => {
+	createStakeTransaction = async (tokenId: string, stakeTypeId: number = 1, landInEgld: number = 100) => {
 		const args: TypedValue[] = [
-			BytesValue.fromUTF8(TOKEN_ID),
-			new BigUIntValue(Egld(100).valueOf()),
+			BytesValue.fromUTF8(tokenId),
+			new BigUIntValue(Egld(landInEgld).valueOf()),
 			BytesValue.fromUTF8(STAKE),
-			new U32Value(1), // stake_type_id
+			new U32Value(stakeTypeId), // stake_type_id
 			new AddressValue(this.stakerAddress),
 		];
 		const { argumentsString } = new ArgSerializer().valuesToString(args);
