@@ -12,11 +12,7 @@ const convertToHex = (str: string) => {
 	return result;
 };
 
-export const CONTRACT_ADDRESS = "erd1qqqqqqqqqqqqqpgqef5fcezxavwtpczx3cl0ue4k5fvtca4f4dfqukhz5z";
-
-export const CALLER_ADDRESS = "erd1dl8ucerztz80eqtvs2u35vj5pckle3h3mnuce5fctyzxp4d74dfqwy7ntn";
-export const CALLER_ADDRESS_ONLY_HEX = convertToHex(CONTRACT_ADDRESS);
-export const CALLER_ADDRESS_HEX = "0x" + CALLER_ADDRESS_ONLY_HEX;
+export const CONTRACT_ADDRESS = "erd1qqqqqqqqqqqqqpgqg5ezkspemx2eelkyc2aj82fmua7t7c564dfqqzre7t";
 
 export const TOKEN_ID = "SVEN-4b35b0";
 export const TOKEN_ID_ONLY_HEX = convertToHex(TOKEN_ID);
@@ -27,3 +23,7 @@ export const MAX_APY_INCREASE_BY_REFERRAL = 1000;
 
 export const STAKE = "stake";
 export const STAKE_ONLY_HEX = convertToHex(STAKE);
+
+export const CONTRACT_ABI_URL = "/assets/abi/landboard-node-stake.abi.json";
+export const CONTRACT_NAME = "LandboardStaking";
+export const TIMEOUT = 6000;

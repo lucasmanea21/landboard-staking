@@ -1,73 +1,55 @@
-import { sendTransactions } from "@elrondnetwork/dapp-core";
+import { refreshAccount, sendTransactions } from "@elrondnetwork/dapp-core";
 import {
 	Account,
 	Address,
 	AddressValue,
 	ArgSerializer,
-	ChainID,
+	BigUIntValue,
+	BytesValue,
 	ContractFunction,
-	CustomType,
-	EndpointDefinition,
-	EndpointParameterDefinition,
+	Egld,
 	GasLimit,
 	I8Value,
-	MaxUint64,
-	PrimitiveType,
+	Interaction,
 	ProxyProvider,
 	SmartContract,
-	StringValue,
-	U64Type,
-	U64Value,
+	Transaction,
+	TransactionPayload,
+	TypedValue,
+	U32Value,
 } from "@elrondnetwork/erdjs/out";
-import { CONTRACT_ADDRESS, STAKE_ONLY_HEX, TOKEN_ID_ONLY_HEX } from "config";
-
-const contractAddress = new Address(CONTRACT_ADDRESS);
-const provider = new ProxyProvider("https://devnet-gateway.elrond.com", { timeout: 5000 });
-
-const stakeTypeParameterDefinitions = [
-	new EndpointParameterDefinition("locking_timestamp", "locking timestamp", new PrimitiveType("u64")),
-	new EndpointParameterDefinition("delegation_timestamp", "delegation timestamp", new PrimitiveType("u64")),
-	new EndpointParameterDefinition("min_stake_limit", "delegation timestamp", new PrimitiveType("BigUint")),
-	new EndpointParameterDefinition("min_stake_limit", "delegation timestamp", new PrimitiveType("BigUint")),
-	new EndpointParameterDefinition("tax", "tax", new PrimitiveType("u32")),
-	new EndpointParameterDefinition("apy", "apy", new PrimitiveType("u32")),
-];
+import { CONTRACT_ADDRESS, STAKE, TOKEN_ID } from "config";
 
 export default class StakeContract {
 	contract: SmartContract;
 	stakerAddress: Address;
 	stakerAccount: Account;
-	serializer: ArgSerializer;
+	provider: ProxyProvider;
 
-	constructor(stakerAddr: string) {
-		this.stakerAddress = new Address(stakerAddr);
-		this.stakerAccount = new Account(this.stakerAddress);
-		this.contract = new SmartContract({
-			address: new Address(CONTRACT_ADDRESS),
-		});
-		this.serializer = new ArgSerializer();
+	constructor(account: any, contract: SmartContract, provider: ProxyProvider) {
+		this.stakerAddress = account.address;
+		this.stakerAccount = account;
+		this.contract = contract;
+		this.provider = provider;
 	}
 
 	createStakeTransaction = async () => {
-		let contract = new SmartContract({
-			address: new Address(CONTRACT_ADDRESS),
-		});
+		const args: TypedValue[] = [
+			BytesValue.fromUTF8(TOKEN_ID),
+			new BigUIntValue(Egld(100).valueOf()),
+			BytesValue.fromUTF8(STAKE),
+			new U32Value(1), // stake_type_id
+			new AddressValue(this.stakerAddress),
+		];
+		const { argumentsString } = new ArgSerializer().valuesToString(args);
+		const data = new TransactionPayload(`ESDTTransfer@${argumentsString}`);
 
-		let tx = contract.call({
-			func: new ContractFunction("transferToken"),
-			gasLimit: new GasLimit(5000000),
-			args: [
-				new StringValue("ESDTTransfer"),
-				new StringValue(TOKEN_ID_ONLY_HEX),
-				new StringValue("056bc75e2d63100000"),
-				new StringValue(STAKE_ONLY_HEX),
-				new StringValue("01"),
-				new AddressValue(this.stakerAddress),
-			],
+		let tx = new Transaction({
+			receiver: new Address(CONTRACT_ADDRESS),
+			gasLimit: new GasLimit(10000000),
+			data: data,
 		});
-		tx.setGasLimit(new GasLimit(10000000));
-		tx.setNonce(this.stakerAccount.nonce);
-
+		await refreshAccount();
 		sendTransactions({
 			transactions: tx,
 		});
@@ -79,8 +61,7 @@ export default class StakeContract {
 			gasLimit: new GasLimit(6000000),
 			args: [new I8Value(1)],
 		});
-		tx.setNonce(this.stakerAccount.nonce);
-
+		await refreshAccount();
 		sendTransactions({
 			transactions: tx,
 		});
@@ -89,29 +70,45 @@ export default class StakeContract {
 	createClaimTransaction = async () => {
 		let tx = this.contract.call({
 			func: new ContractFunction("claim"),
-			gasLimit: new GasLimit(6000000),
-			args: [new I8Value(1)],
+			gasLimit: new GasLimit(5000000),
+			args: [
+				new U32Value(1), // node_id
+			],
 		});
-		tx.setNonce(this.stakerAccount.nonce);
-
+		await refreshAccount();
 		sendTransactions({
 			transactions: tx,
 		});
 	};
 
 	getStakeTypes = async () => {
-		let response = await this.contract.runQuery(provider, {
-			func: new ContractFunction("getStakeTypes"),
-		});
+		const interaction: Interaction = this.contract.methods.getStakeTypes();
+		const queryResponse = await this.contract.runQuery(this.provider, interaction.buildQuery());
+		const res = interaction.interpretQueryResponse(queryResponse);
+		if (!res || !res.returnCode.isSuccess()) return;
+		const value = res.firstValue.valueOf();
 
-		return response;
+		return value;
 	};
 
 	getStakerAddresses = async () => {
-		let response = await this.contract.runQuery(provider, {
-			func: new ContractFunction("getStakerAddresses"),
-		});
+		const interaction: Interaction = this.contract.methods.getStakerAddresses();
+		const queryResponse = await this.contract.runQuery(this.provider, interaction.buildQuery());
+		const res = interaction.interpretQueryResponse(queryResponse);
+		if (!res || !res.returnCode.isSuccess()) return;
+		const value = res.firstValue.valueOf();
 
-		return response;
+		return value;
+	};
+
+	getNodesPerStaker = async () => {
+		const args = [new AddressValue(new Address(this.stakerAddress))];
+		const interaction: Interaction = this.contract.methods.getNodesPerStaker(args);
+		const queryResponse = await this.contract.runQuery(this.provider, interaction.buildQuery());
+		const res = interaction.interpretQueryResponse(queryResponse);
+		if (!res || !res.returnCode.isSuccess()) return;
+		const value = res.firstValue.valueOf();
+
+		return value;
 	};
 }

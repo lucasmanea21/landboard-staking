@@ -1,0 +1,480 @@
+{
+	"buildInfo": {
+		"rustc": {
+			"version": "1.61.0-nightly",
+			"commitHash": "03a8cc7df1d65554a4d40825b0490c93ac0f0236",
+			"commitDate": "2022-02-21",
+			"channel": "Nightly",
+			"short": "rustc 1.61.0-nightly (03a8cc7df 2022-02-21)"
+		},
+		"contractCrate": {
+			"name": "landboard-node-stake",
+			"version": "0.0.0"
+		},
+		"framework": {
+			"name": "elrond-wasm",
+			"version": "0.29.3"
+		}
+	},
+	"name": "LandboardStaking",
+	"constructor": {
+		"inputs": [
+			{
+				"name": "stake_token_id",
+				"type": "TokenIdentifier"
+			},
+			{
+				"name": "reward_token_id",
+				"type": "TokenIdentifier"
+			},
+			{
+				"name": "referral_activation_amount",
+				"type": "BigUint"
+			},
+			{
+				"name": "apy_increase_per_referral",
+				"type": "u32"
+			},
+			{
+				"name": "max_apy_increase_by_referral",
+				"type": "u32"
+			},
+			{
+				"name": "referral_reward",
+				"type": "BigUint"
+			}
+		],
+		"outputs": []
+	},
+	"endpoints": [
+		{
+			"name": "stake",
+			"mutability": "mutable",
+			"payableInTokens": ["*"],
+			"inputs": [
+				{
+					"name": "stake_type_id",
+					"type": "u32"
+				},
+				{
+					"name": "opt_referrer_address",
+					"type": "optional<Address>",
+					"multi_arg": true
+				}
+			],
+			"outputs": []
+		},
+		{
+			"name": "unstake",
+			"mutability": "mutable",
+			"inputs": [
+				{
+					"name": "node_id",
+					"type": "u32"
+				}
+			],
+			"outputs": []
+		},
+		{
+			"name": "claim",
+			"mutability": "mutable",
+			"inputs": [
+				{
+					"name": "node_id",
+					"type": "u32"
+				}
+			],
+			"outputs": []
+		},
+		{
+			"name": "withdraw",
+			"onlyOwner": true,
+			"mutability": "mutable",
+			"inputs": [
+				{
+					"name": "opt_token_id",
+					"type": "optional<TokenIdentifier>",
+					"multi_arg": true
+				},
+				{
+					"name": "opt_token_amount",
+					"type": "optional<BigUint>",
+					"multi_arg": true
+				}
+			],
+			"outputs": []
+		},
+		{
+			"docs": ["view"],
+			"name": "getNodesPerStaker",
+			"mutability": "readonly",
+			"inputs": [
+				{
+					"name": "staker_address",
+					"type": "Address"
+				}
+			],
+			"outputs": [
+				{
+					"type": "variadic<multi<u32,BigUint,u64,u64,bool,BigUint>>",
+					"multi_result": true
+				}
+			]
+		},
+		{
+			"name": "setStakeTokenId",
+			"onlyOwner": true,
+			"mutability": "mutable",
+			"inputs": [
+				{
+					"name": "stake_token_id",
+					"type": "TokenIdentifier"
+				}
+			],
+			"outputs": []
+		},
+		{
+			"name": "setRewardTokenId",
+			"onlyOwner": true,
+			"mutability": "mutable",
+			"inputs": [
+				{
+					"name": "reward_token_id",
+					"type": "TokenIdentifier"
+				}
+			],
+			"outputs": []
+		},
+		{
+			"name": "pause",
+			"onlyOwner": true,
+			"mutability": "mutable",
+			"inputs": [],
+			"outputs": []
+		},
+		{
+			"name": "unpause",
+			"onlyOwner": true,
+			"mutability": "mutable",
+			"inputs": [],
+			"outputs": []
+		},
+		{
+			"name": "addStakeTypes",
+			"onlyOwner": true,
+			"mutability": "mutable",
+			"inputs": [
+				{
+					"name": "stake_types",
+					"type": "variadic<multi<u64,u64,BigUint,u32,u32>>",
+					"multi_arg": true
+				}
+			],
+			"outputs": []
+		},
+		{
+			"name": "clearStakeTypes",
+			"onlyOwner": true,
+			"mutability": "mutable",
+			"inputs": [],
+			"outputs": []
+		},
+		{
+			"name": "getStakeTokenId",
+			"mutability": "readonly",
+			"inputs": [],
+			"outputs": [
+				{
+					"type": "TokenIdentifier"
+				}
+			]
+		},
+		{
+			"name": "getRewardTokenId",
+			"mutability": "readonly",
+			"inputs": [],
+			"outputs": [
+				{
+					"type": "TokenIdentifier"
+				}
+			]
+		},
+		{
+			"name": "getPaused",
+			"mutability": "readonly",
+			"inputs": [],
+			"outputs": [
+				{
+					"type": "bool"
+				}
+			]
+		},
+		{
+			"name": "getStakeTypes",
+			"mutability": "readonly",
+			"inputs": [],
+			"outputs": [
+				{
+					"type": "variadic<StakeType>",
+					"multi_result": true
+				}
+			]
+		},
+		{
+			"name": "getStakerAddresses",
+			"mutability": "readonly",
+			"inputs": [],
+			"outputs": [
+				{
+					"type": "variadic<Address>",
+					"multi_result": true
+				}
+			]
+		},
+		{
+			"name": "getNodeIds",
+			"mutability": "readonly",
+			"inputs": [
+				{
+					"name": "staker_address",
+					"type": "Address"
+				}
+			],
+			"outputs": [
+				{
+					"type": "variadic<u32>",
+					"multi_result": true
+				}
+			]
+		},
+		{
+			"name": "getLastNodeId",
+			"mutability": "readonly",
+			"inputs": [
+				{
+					"name": "staker_address",
+					"type": "Address"
+				}
+			],
+			"outputs": [
+				{
+					"type": "u32"
+				}
+			]
+		},
+		{
+			"name": "getNode",
+			"mutability": "readonly",
+			"inputs": [
+				{
+					"name": "staker_address",
+					"type": "Address"
+				},
+				{
+					"name": "node_id",
+					"type": "u32"
+				}
+			],
+			"outputs": [
+				{
+					"type": "StakeNode"
+				}
+			]
+		},
+		{
+			"docs": ["referral"],
+			"name": "getReferrerAddress",
+			"mutability": "readonly",
+			"inputs": [
+				{
+					"name": "user_address",
+					"type": "Address"
+				}
+			],
+			"outputs": [
+				{
+					"type": "Address"
+				}
+			]
+		},
+		{
+			"name": "getReferralActivated",
+			"mutability": "readonly",
+			"inputs": [
+				{
+					"name": "user_address",
+					"type": "Address"
+				}
+			],
+			"outputs": [
+				{
+					"type": "bool"
+				}
+			]
+		},
+		{
+			"name": "getReferredCount",
+			"mutability": "readonly",
+			"inputs": [
+				{
+					"name": "user_address",
+					"type": "Address"
+				}
+			],
+			"outputs": [
+				{
+					"type": "u32"
+				}
+			]
+		},
+		{
+			"name": "getReferralActivationAmount",
+			"mutability": "readonly",
+			"inputs": [],
+			"outputs": [
+				{
+					"type": "BigUint"
+				}
+			]
+		},
+		{
+			"name": "setReferralActivationAmount",
+			"onlyOwner": true,
+			"mutability": "mutable",
+			"inputs": [
+				{
+					"name": "referral_activation_amount",
+					"type": "BigUint"
+				}
+			],
+			"outputs": []
+		},
+		{
+			"name": "getApyIncreasePerReferral",
+			"mutability": "readonly",
+			"inputs": [],
+			"outputs": [
+				{
+					"type": "u32"
+				}
+			]
+		},
+		{
+			"name": "setApyIncreasePerReferral",
+			"onlyOwner": true,
+			"mutability": "mutable",
+			"inputs": [
+				{
+					"name": "apy_increase_per_referral",
+					"type": "u32"
+				}
+			],
+			"outputs": []
+		},
+		{
+			"name": "getMaxApyIncreaseByReferral",
+			"mutability": "readonly",
+			"inputs": [],
+			"outputs": [
+				{
+					"type": "u32"
+				}
+			]
+		},
+		{
+			"name": "setMaxApyIncreaseByReferral",
+			"onlyOwner": true,
+			"mutability": "mutable",
+			"inputs": [
+				{
+					"name": "max_apy_increase_by_referral",
+					"type": "u32"
+				}
+			],
+			"outputs": []
+		},
+		{
+			"name": "getReferralReward",
+			"mutability": "readonly",
+			"inputs": [],
+			"outputs": [
+				{
+					"type": "BigUint"
+				}
+			]
+		},
+		{
+			"name": "setReferralReward",
+			"onlyOwner": true,
+			"mutability": "mutable",
+			"inputs": [
+				{
+					"name": "referral_reward",
+					"type": "BigUint"
+				}
+			],
+			"outputs": []
+		}
+	],
+	"hasCallback": false,
+	"types": {
+		"StakeNode": {
+			"type": "struct",
+			"fields": [
+				{
+					"name": "node_id",
+					"type": "u32"
+				},
+				{
+					"name": "stake_type",
+					"type": "StakeType"
+				},
+				{
+					"name": "stake_amount",
+					"type": "BigUint"
+				},
+				{
+					"name": "stake_timestamp",
+					"type": "u64"
+				},
+				{
+					"name": "unstaked",
+					"type": "bool"
+				},
+				{
+					"name": "reward_amount",
+					"type": "BigUint"
+				},
+				{
+					"name": "unstake_timestamp",
+					"type": "u64"
+				}
+			]
+		},
+		"StakeType": {
+			"type": "struct",
+			"fields": [
+				{
+					"name": "locking_timestamp",
+					"type": "u64"
+				},
+				{
+					"name": "delegation_timestamp",
+					"type": "u64"
+				},
+				{
+					"name": "min_stake_limit",
+					"type": "BigUint"
+				},
+				{
+					"name": "tax",
+					"type": "u32"
+				},
+				{
+					"name": "apy",
+					"type": "u32"
+				}
+			]
+		}
+	}
+}

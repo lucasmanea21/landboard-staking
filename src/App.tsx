@@ -1,16 +1,14 @@
 import { DappProvider, DappUI } from "@elrondnetwork/dapp-core";
 import NavBar from "components/navbar";
 import NotFound from "pages/404";
-import Home from "pages/Home";
 import { Fragment } from "react";
 import { Toaster } from "react-hot-toast";
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Navigate, Route, Routes } from "react-router-dom";
 import routes, { routeNames } from "routes";
 
-const environment = "mainnet";
+const environment = "devnet";
 
 const {
-	TransactionsToastList,
 	SignTransactionsModals,
 	NotificationModal,
 	DappCorePages: { UnlockPage },

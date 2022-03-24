@@ -1,4 +1,5 @@
-import { useGetAccountInfo } from "@elrondnetwork/dapp-core";
+import { useGetAccountInfo, useGetNetworkConfig } from "@elrondnetwork/dapp-core";
+import { ProxyProvider, SmartContract } from "@elrondnetwork/erdjs/out";
 import { fadeInVariants, motionContainerProps } from "animation/variants";
 import StakeContract from "api";
 import axios from "axios";
@@ -8,9 +9,11 @@ import PlanCard from "components/cards";
 import CheckboxGroup from "components/checkbox/CheckboxGroup";
 import { Icon } from "components/icons/Icon";
 import Input from "components/input";
+import { TIMEOUT } from "config";
 import { AnimatePresence, motion } from "framer-motion/dist/framer-motion";
 import { useEffect, useMemo, useState } from "react";
 import { useMedia } from "react-use";
+import useStakeContract from "utils/useStakeContract";
 
 const landPlans = [
 	{
@@ -40,9 +43,6 @@ const landPlans = [
 	},
 ];
 
-const environment =
-	process.env.REACT_APP_ELROND_NETWORK === "mainnet" ? "" : process.env.REACT_APP_ELROND_NETWORK + "-";
-
 const LabelButton = (props: any) => (
 	<button
 		type="button"
@@ -66,20 +66,22 @@ const lklandOptions = [
 ];
 
 const Home = () => {
-	const { address, account, ...rest } = useGetAccountInfo();
+	const { address, account } = useGetAccountInfo();
 	const isMobile = useMedia("(max-width: 768px)");
+	const { network } = useGetNetworkConfig();
 
 	const [stakedQuantity, setStakedQuantity] = useState("");
 	const [referralCode, setReferralCode] = useState("");
 	const [selectedToken, setSelectedToken] = useState("LAND");
 	const [lklandType, setLklandType] = useState<any>("LKLAND-6cf78e");
+	const [stakeTypes, setStakeTypes] = useState<any[]>([]);
 	const [totalLandBalance, setTotalLandBalance] = useState(0);
 	const [totalLkLandBalance, setTotalLkLandBalance] = useState({
 		"LKLAND-6cf78e": 0,
 		"LKLAND-c617f7": 0,
 	});
 	const [activeDay, setActiveDay] = useState(15);
-	const [stakeContract, setStakeContract] = useState<null | StakeContract>(null);
+	const { stakeContract } = useStakeContract();
 
 	const handleChangeStakedQuantity = (e: any) => {
 		const regex = RegExp(/[0-9]+/g);
@@ -110,8 +112,7 @@ const Home = () => {
 
 	useEffect(() => {
 		if (account.address != "") {
-			setStakeContract(new StakeContract(account.address));
-			axios.get(`https://${environment}api.elrond.com/accounts/${account.address}/tokens`).then((res: any) => {
+			axios.get(`${network.apiAddress}/accounts/${account.address}/tokens`).then((res: any) => {
 				if (res.data?.length > 0) {
 					const tokens = res.data.filter((a: any) => a?.identifier === "LAND-40f26f" || a?.ticker === "LAND-40f26f");
 					const lkLand1 = res.data.filter((a: any) => a?.identifier === "LKLAND-6cf78e");
@@ -128,7 +129,13 @@ const Home = () => {
 
 	useEffect(() => {
 		if (stakeContract) {
-			stakeContract.getStakeTypes().then((res: any) => {});
+			stakeContract.getStakeTypes().then((stakeTypes: any) => {
+				console.log("stakeTypes", stakeTypes[0]);
+				console.log("stakeTypes", stakeTypes[0].apy.valueOf());
+				setStakeTypes(stakeTypes);
+			});
+			// const stakerAddresses = await stakeContract.getStakerAddresses();
+			// const nodesPerStaker = await stakeContract.getNodesPerStaker();
 		}
 	}, [stakeContract]);
 

@@ -1,4 +1,4 @@
-import { logout, useGetAccountInfo, useGetLoginInfo } from "@elrondnetwork/dapp-core";
+import { logout, useGetAccountInfo, useGetLoginInfo, useGetNetworkConfig } from "@elrondnetwork/dapp-core";
 import { scaleInVariants } from "animation/variants";
 import axios from "axios";
 import { Icon } from "components/icons/Icon";
@@ -22,8 +22,8 @@ const AddressButton = ({ onClick }: any) => {
 	const { address, account } = useGetAccountInfo();
 	const [totalLandBalance, setTotalLandBalance] = useState(0);
 	const navigate = useNavigate();
-	const location = useLocation();
 	const isInUnlock = window.location.pathname.includes("unlock");
+	const { network } = useGetNetworkConfig();
 
 	const handleLogout = () => {
 		logout(`${window.location.origin}`);
@@ -40,7 +40,7 @@ const AddressButton = ({ onClick }: any) => {
 
 	useEffect(() => {
 		if (account.address != "") {
-			axios.get(`https://api.elrond.com/accounts/${account.address}/tokens`).then((res: any) => {
+			axios.get(`${network.apiAddress}/accounts/${account.address}/tokens`).then((res: any) => {
 				if (res.data?.length > 0)
 					setTotalLandBalance(res.data.filter((a: any) => a.identifier === "LAND-40f26f")[0].balance / 10 ** 18);
 			});
