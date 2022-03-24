@@ -8,6 +8,7 @@ import PlanCard from "components/cards";
 import CheckboxGroup from "components/checkbox/CheckboxGroup";
 import { Icon } from "components/icons/Icon";
 import Input from "components/input";
+import { useSearchParams } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion/dist/framer-motion";
 import { useEffect, useMemo, useState } from "react";
 import { useMedia } from "react-use";
@@ -40,9 +41,6 @@ const landPlans = [
 	},
 ];
 
-const environment =
-	process.env.REACT_APP_ELROND_NETWORK === "mainnet" ? "" : process.env.REACT_APP_ELROND_NETWORK + "-";
-
 const LabelButton = (props: any) => (
 	<button
 		type="button"
@@ -66,8 +64,9 @@ const lklandOptions = [
 ];
 
 const Home = () => {
-	const { address, account, ...rest } = useGetAccountInfo();
+	const { address, account } = useGetAccountInfo();
 	const isMobile = useMedia("(max-width: 768px)");
+	const [searchParams] = useSearchParams();
 
 	const [stakedQuantity, setStakedQuantity] = useState("");
 	const [referralCode, setReferralCode] = useState("");
@@ -107,6 +106,10 @@ const Home = () => {
 	};
 
 	const handleSwitchToken = (token: string) => setSelectedToken(token);
+
+	useEffect(() => {
+		setReferralCode(searchParams.get("referral") ?? "");
+	}, [searchParams]);
 
 	useEffect(() => {
 		if (account.address != "") {

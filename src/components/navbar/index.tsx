@@ -13,7 +13,7 @@ const NavBar = () => {
 	const { address } = useGetAccountInfo();
 	const isMobile = useMedia("(max-width: 768px)");
 
-	let menuItems: any[] = [{ label: "Staking" }, { label: "Referrals" }, { label: "Staked" }];
+	let menuItems: any[] = [{ label: "Staking", href: "/" }, { label: "Referrals" }, { label: "Staked" }];
 	if (!address) {
 		menuItems = [];
 	}
@@ -42,7 +42,9 @@ const NavBar = () => {
 					return (
 						<motion.li variants={scaleInVariants} key={item.label ?? item}>
 							{!item.link && (
-								<NavLink to={item.label.toLowerCase()} className="p-4 uppercase cursor-pointer hover:text-purple">
+								<NavLink
+									to={item.href ?? item.label.toLowerCase()}
+									className="p-4 uppercase cursor-pointer hover:text-purple">
 									{item.label}
 								</NavLink>
 							)}
@@ -79,7 +81,7 @@ const NavBar = () => {
 						<motion.li variants={scaleInVariants} key={item.label ?? item}>
 							{!item.link && (
 								<NavLink
-									to={item.label.toLowerCase()}
+									to={item.href ?? item.label.toLowerCase()}
 									className="p-4 uppercase cursor-pointer hover:text-purple"
 									onClick={handleNav}>
 									{item.label}

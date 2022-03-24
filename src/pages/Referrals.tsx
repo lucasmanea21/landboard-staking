@@ -50,7 +50,7 @@ const Referrals = () => {
 	const { isLoggedIn } = useGetLoginInfo();
 	const { account } = useGetAccountInfo();
 	const navigate = useNavigate();
-	console.log("account", account);
+
 	useEffect(() => {
 		if (!isLoggedIn) {
 			navigate("/");
@@ -90,7 +90,7 @@ const Referrals = () => {
 							onClick={() => {
 								try {
 									navigator.clipboard.writeText(
-										`Hey! I am staking my Landboard tokens for up to 60% APR. You should try it too! Use my referral code for bonuses: ` +
+										`Hey! I am staking my Landboard tokens for up to 60% APR. You should try it too! Use my referral code for bonuses: https://staking.landboard.io?referral=` +
 											referralCode
 									);
 								} catch (err) {
