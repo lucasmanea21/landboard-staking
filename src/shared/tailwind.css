@@ -172,6 +172,9 @@ input:focus {
 	@apply mb-5 max-w-[20rem];
 }
 
+.rewards-container > h2 {
+	@apply font-bold text-xl;
+}
 .rewards-list {
 	@apply flex flex-col gap-3;
 }

@@ -9,7 +9,7 @@ export const routeNames = {
 	ledger: "/ledger",
 	walletconnect: "/walletconnect",
 	referrals: "/referrals",
-	staking: "/staking",
+	staking: "/",
 	staked: "/staked",
 };
 

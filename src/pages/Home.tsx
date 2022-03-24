@@ -111,7 +111,7 @@ const Home = () => {
 	useEffect(() => {
 		if (account.address != "") {
 			setStakeContract(new StakeContract(account.address));
-			axios.get(`https://${environment}api.elrond.com/accounts/${account.address}/tokens`).then((res: any) => {
+			axios.get(`https://api.elrond.com/accounts/${account.address}/tokens`).then((res: any) => {
 				if (res.data?.length > 0) {
 					const tokens = res.data.filter((a: any) => a?.identifier === "LAND-40f26f" || a?.ticker === "LAND-40f26f");
 					const lkLand1 = res.data.filter((a: any) => a?.identifier === "LKLAND-6cf78e");
