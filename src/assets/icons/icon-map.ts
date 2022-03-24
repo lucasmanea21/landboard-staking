@@ -5,6 +5,7 @@ import { ReactComponent as Cyborg } from './cyborg.svg';
 import { ReactComponent as Discord } from './discord.svg';
 import { ReactComponent as Expand } from './expand.svg';
 import { ReactComponent as Fan } from './fan.svg';
+import { ReactComponent as Gift } from './gift.svg';
 import { ReactComponent as Hamburger } from './hamburger.svg';
 import { ReactComponent as History } from './history.svg';
 import { ReactComponent as Info } from './info.svg';
@@ -35,6 +36,7 @@ export default {
 "discord": Discord, 
 "expand": Expand, 
 "fan": Fan, 
+"gift": Gift, 
 "hamburger": Hamburger, 
 "history": History, 
 "info": Info, 

@@ -1,7 +1,5 @@
 import { useGetAccountInfo, useGetNetworkConfig } from "@elrondnetwork/dapp-core";
-import { ProxyProvider, SmartContract } from "@elrondnetwork/erdjs/out";
 import { fadeInVariants, motionContainerProps } from "animation/variants";
-import StakeContract from "api";
 import axios from "axios";
 import Button from "components/buttons";
 import TokenPicker from "components/buttons/TokenPicker";
@@ -9,9 +7,9 @@ import PlanCard from "components/cards";
 import CheckboxGroup from "components/checkbox/CheckboxGroup";
 import { Icon } from "components/icons/Icon";
 import Input from "components/input";
-import { TIMEOUT } from "config";
 import { AnimatePresence, motion } from "framer-motion/dist/framer-motion";
 import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useMedia } from "react-use";
 import useStakeContract from "utils/useStakeContract";
 
@@ -69,6 +67,7 @@ const Home = () => {
 	const { address, account } = useGetAccountInfo();
 	const isMobile = useMedia("(max-width: 768px)");
 	const { network } = useGetNetworkConfig();
+	const [searchParams] = useSearchParams();
 
 	const [stakedQuantity, setStakedQuantity] = useState("");
 	const [referralCode, setReferralCode] = useState("");
@@ -109,6 +108,10 @@ const Home = () => {
 	};
 
 	const handleSwitchToken = (token: string) => setSelectedToken(token);
+
+	useEffect(() => {
+		setReferralCode(searchParams.get("referral") ?? "");
+	}, [searchParams]);
 
 	useEffect(() => {
 		if (account.address != "") {
@@ -152,7 +155,7 @@ const Home = () => {
 	const disabled = true || stakedQuantity === "0" || !stakedQuantity || !address || balance < 1000;
 
 	const handleSelectLkLand = (options: any[]) => {
-		setLklandType(options[0].value);
+		setLklandType(options.filter((a: any) => a.checked)[0].value);
 	};
 
 	return (
@@ -183,15 +186,24 @@ const Home = () => {
 							/>
 						}
 					/>
-					<Input
-						placeholder="TOTHEMOON"
-						label="Referral Code"
-						value={referralCode}
-						onChange={handleChangeReferralCode}
-					/>
+					{selectedToken === "LAND" && (
+						<motion.span className="text-sm text-purple" ariants={fadeInVariants}>
+							Stake at least 300 land in order to use referral code. Referral code can only be used once
+						</motion.span>
+					)}
+					<AnimatePresence>
+						{selectedToken === "LAND" && (
+							<Input
+								placeholder="TOTHEMOON"
+								label="Referral Code"
+								value={referralCode}
+								onChange={handleChangeReferralCode}
+							/>
+						)}
+					</AnimatePresence>
 					{address && (
 						<motion.p variants={fadeInVariants} className="home__form--balance">
-							{selectedToken} Balance: <span>{balance}</span>
+							{selectedToken === "LAND" ? "LAND" : lklandType} Balance: <span>{balance}</span>
 						</motion.p>
 					)}
 					<AnimatePresence>

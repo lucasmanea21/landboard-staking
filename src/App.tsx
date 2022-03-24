@@ -27,7 +27,6 @@ const App = () => {
 						<NotificationModal />
 						<SignTransactionsModals className="modal-card" />
 						<Routes>
-							<Route path="/" element={<Navigate to="/staking" replace />} />
 							<Route path={routeNames.unlock} element={<UnlockPage loginRoute="/" />} />
 							{routes.map((route: any, index: number) => (
 								<Route path={route.path} key={"route-key-" + index} element={<route.component />} />

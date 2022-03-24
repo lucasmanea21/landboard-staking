@@ -14,6 +14,7 @@ export const Cyborg: React.FC<IconProps> = (props) => <Icon {...props} name="cyb
 export const Discord: React.FC<IconProps> = (props) => <Icon {...props} name="discord" />;
 export const Expand: React.FC<IconProps> = (props) => <Icon {...props} name="expand" />;
 export const Fan: React.FC<IconProps> = (props) => <Icon {...props} name="fan" />;
+export const Gift: React.FC<IconProps> = (props) => <Icon {...props} name="gift" />;
 export const Hamburger: React.FC<IconProps> = (props) => <Icon {...props} name="hamburger" />;
 export const History: React.FC<IconProps> = (props) => <Icon {...props} name="history" />;
 export const Info: React.FC<IconProps> = (props) => <Icon {...props} name="info" />;

@@ -9,7 +9,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 const Input = ({ label, name, LabelButton, ...rest }: InputProps) => {
 	return (
-		<motion.label variants={scaleFadeInVariants} className="input-container" htmlFor={name}>
+		<motion.label variants={scaleFadeInVariants} exit="hidden" className="input-container" htmlFor={name}>
 			<div className="flex items-center justify-between w-full">
 				<span className="font-bold">{label}</span>
 				{LabelButton}

@@ -33,7 +33,7 @@ const Staked = () => {
 			<div className="staked-grid">
 				<Dracula />
 				<motion.p variants={fadeInVariants}>No staked land yet, stake some now!</motion.p>
-				<Button className="btn filled" onClick={() => navigate("/staking")}>
+				<Button className="btn filled" onClick={() => navigate("/")}>
 					STAKE NOW
 				</Button>
 				{/* <StakeCard

@@ -92,3 +92,12 @@ export const mobileMenuVariants = {
 		},
 	},
 };
+
+export const copyButtonVariants = {
+	inactive: {
+		fill: "#ffffff",
+	},
+	active: {
+		fill: "#8E2DE2",
+	},
+};
