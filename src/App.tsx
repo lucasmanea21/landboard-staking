@@ -1,12 +1,13 @@
 import { DappProvider, DappUI } from "@elrondnetwork/dapp-core";
 import NavBar from "components/navbar";
 import NotFound from "pages/404";
-import { Fragment } from "react";
+import Home from "pages/Home";
+import React, { Fragment } from "react";
 import { Toaster } from "react-hot-toast";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import routes, { routeNames } from "routes";
 
-const environment = "devnet";
+export const environment = "devnet";
 
 const {
 	SignTransactionsModals,
@@ -27,6 +28,7 @@ const App = () => {
 						<NotificationModal />
 						<SignTransactionsModals className="modal-card" />
 						<Routes>
+							<Route path="/" element={<Home />} />
 							<Route path={routeNames.unlock} element={<UnlockPage loginRoute="/" />} />
 							{routes.map((route: any, index: number) => (
 								<Route path={route.path} key={"route-key-" + index} element={<route.component />} />

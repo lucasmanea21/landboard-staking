@@ -1,23 +1,5 @@
-import { refreshAccount, sendTransactions, useGetAccountInfo, useGetNetworkConfig } from "@elrondnetwork/dapp-core";
-import {
-	AbiRegistry,
-	Address,
-	AddressValue,
-	ArgSerializer,
-	BigUIntValue,
-	BytesValue,
-	Egld,
-	GasLimit,
-	ProxyProvider,
-	SmartContract,
-	SmartContractAbi,
-	Transaction,
-	TransactionPayload,
-	TypedValue,
-	U32Value,
-} from "@elrondnetwork/erdjs/out";
+import { useGetAccountInfo, useGetNetworkConfig } from "@elrondnetwork/dapp-core";
 import { fadeInVariants, motionContainerProps } from "animation/variants";
-import StakeContract from "api";
 import axios from "axios";
 import Button from "components/buttons";
 import TokenPicker from "components/buttons/TokenPicker";
@@ -25,7 +7,6 @@ import PlanCard from "components/cards";
 import CheckboxGroup from "components/checkbox/CheckboxGroup";
 import { Icon } from "components/icons/Icon";
 import Input from "components/input";
-import { CONTRACT_ABI_URL, CONTRACT_ADDRESS, CONTRACT_NAME, STAKE, TIMEOUT } from "config";
 import { AnimatePresence, motion } from "framer-motion/dist/framer-motion";
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
@@ -84,10 +65,10 @@ const lklandOptions = [
 ];
 
 const Home = () => {
-	const { address, account } = useGetAccountInfo();
+	const { address, account, ...rest } = useGetAccountInfo();
 	const { network } = useGetNetworkConfig();
-	const { stakeContract, getStakeContract } = useStakeContract();
-	const provider = new ProxyProvider(network.apiAddress, { timeout: TIMEOUT });
+
+	const { stakeContract } = useStakeContract();
 
 	const isMobile = useMedia("(max-width: 768px)");
 
@@ -134,10 +115,8 @@ const Home = () => {
 		const tokenId = selectedToken === "LAND" ? "SVEN-4b35b0" : lklandTypeId;
 		const planIndex = landPlans.map((plan) => plan.days).indexOf(activeDay);
 		const stakeTypeId = stakeTypes[planIndex];
-
-		getStakeContract().then((contract) =>
-			// contract.createStakeTransaction(tokenId, planIndex, parseInt(stakedLandQuantity))
-		);
+		console.log("stakeTypeId", stakeTypeId);
+		stakeContract?.createStakeTransaction(tokenId, planIndex, parseInt(stakedLandQuantity));
 	};
 
 	const handleSwitchToken = (token: string) => setSelectedToken(token);
@@ -169,16 +148,16 @@ const Home = () => {
 		}
 	}, [account]);
 
-	useEffect(() => {
-		if (stakeContract) {
-			stakeContract.getStakeTypes().then((stakeTypes: any) => {
-				console.log("stakeTypes", stakeTypes[0]);
-				setStakeTypes(stakeTypes);
-			});
-			// const stakerAddresses = await stakeContract.getStakerAddresses();
-			// const nodesPerStaker = await stakeContract.getNodesPerStaker();
-		}
-	}, [stakeContract]);
+	// useEffect(() => {
+	// 	if (stakeContract) {
+	// 		stakeContract.getStakeTypes().then((stakeTypes: any) => {
+	// 			console.log("stakeTypes", stakeTypes[0]);
+	// 			setStakeTypes(stakeTypes);
+	// 		});
+	// 		// const stakerAddresses = await stakeContract.getStakerAddresses();
+	// 		// const nodesPerStaker = await stakeContract.getNodesPerStaker();
+	// 	}
+	// }, [stakeContract]);
 
 	const plans = useMemo(
 		() =>

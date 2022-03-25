@@ -22,6 +22,7 @@ export const REFERRRAL_ACTIVATION_AMOUNT = 100000000000000000000;
 export const APY_INCREASE_PER_REFERRAL = 50;
 export const MAX_APY_INCREASE_BY_REFERRAL = 1000;
 
+export const CHAIN_ID = "D";
 export const STAKE = "stake";
 export const STAKE_ONLY_HEX = convertToHex(STAKE);
 

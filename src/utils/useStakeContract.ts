@@ -1,5 +1,12 @@
 import { useGetAccountInfo, useGetNetworkConfig } from "@elrondnetwork/dapp-core";
-import { AbiRegistry, Address, ProxyProvider, SmartContract, SmartContractAbi } from "@elrondnetwork/erdjs/out";
+import {
+	AbiRegistry,
+	Address,
+	NetworkConfig,
+	ProxyProvider,
+	SmartContract,
+	SmartContractAbi,
+} from "@elrondnetwork/erdjs/out";
 import StakeContract from "api";
 import { useEffect, useState } from "react";
 import { CONTRACT_ABI_URL, CONTRACT_ADDRESS, CONTRACT_NAME, TIMEOUT } from "../config";
@@ -19,7 +26,9 @@ const useStakeContract = () => {
 				abi: new SmartContractAbi(abiRegistry, [CONTRACT_NAME]),
 			});
 			const provider = new ProxyProvider(network.apiAddress, { timeout: TIMEOUT });
-			setStakeContract(new StakeContract(account, contract, provider));
+			NetworkConfig.getDefault()
+				.sync(provider)
+				.then(() => setStakeContract(new StakeContract(account, contract, provider)));
 		}
 	};
 

@@ -7,6 +7,7 @@ import {
 	BigUIntValue,
 	BytesValue,
 	ContractFunction,
+	ChainID,
 	Egld,
 	GasLimit,
 	I8Value,
@@ -17,8 +18,9 @@ import {
 	TransactionPayload,
 	TypedValue,
 	U32Value,
+	NetworkConfig,
 } from "@elrondnetwork/erdjs/out";
-import { CONTRACT_ADDRESS, STAKE, TOKEN_ID } from "config";
+import { CONTRACT_ADDRESS, STAKE } from "config";
 
 export default class StakeContract {
 	contract: SmartContract;
@@ -31,6 +33,8 @@ export default class StakeContract {
 		this.stakerAccount = account;
 		this.contract = contract;
 		this.provider = provider;
+
+		console.log("NetworkConfig.getDefault().ChainID", NetworkConfig.getDefault().ChainID);
 		console.log("provider", provider);
 	}
 
@@ -39,10 +43,9 @@ export default class StakeContract {
 			BytesValue.fromUTF8(tokenId),
 			new BigUIntValue(Egld(landAmount).valueOf()),
 			BytesValue.fromUTF8(STAKE),
-			new U32Value(1), // stake_type_id
+			new U32Value(stakeTypeId),
 			new AddressValue(new Address(this.stakerAddress)),
 		];
-		console.log("args", args);
 		const { argumentsString } = new ArgSerializer().valuesToString(args);
 		const data = new TransactionPayload(`ESDTTransfer@${argumentsString}`);
 
@@ -51,7 +54,9 @@ export default class StakeContract {
 			gasLimit: new GasLimit(10000000),
 			data: data,
 		});
-		// await refreshAccount();
+		console.log("ChainID", ChainID);
+		tx.setNonce(this.stakerAccount.nonce);
+		await refreshAccount();
 		sendTransactions({
 			transactions: tx,
 		});
