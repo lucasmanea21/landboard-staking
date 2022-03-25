@@ -33,10 +33,10 @@ const ButtonContent = ({ disabled, link, className, type, children, external, hi
 };
 
 const Button = (props: any) => {
-	const { animate, containerClassname = "", ...rest } = props;
+	const { hideAnimate, containerClassname = "", ...rest } = props;
 
 	return (
-		<motion.div className={`relative w-full ${containerClassname}`} variants={scaleFadeInVariants}>
+		<motion.div className={`relative w-full ${containerClassname}`} variants={hideAnimate ? {} : scaleFadeInVariants}>
 			{<ButtonContent {...rest} />}
 		</motion.div>
 	);

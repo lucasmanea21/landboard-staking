@@ -12,7 +12,8 @@ const convertToHex = (str: string) => {
 	return result;
 };
 
-export const CONTRACT_ADDRESS = "erd1qqqqqqqqqqqqqpgqg5ezkspemx2eelkyc2aj82fmua7t7c564dfqqzre7t";
+// this is right one ?
+export const CONTRACT_ADDRESS = "erd1qqqqqqqqqqqqqpgq90vj4fjlh49jspj9amxgau58dhgaf4924dfql9n2xl";
 
 export const TOKEN_ID = "LAND-40f26f";
 export const TOKEN_ID_ONLY_HEX = convertToHex(TOKEN_ID);

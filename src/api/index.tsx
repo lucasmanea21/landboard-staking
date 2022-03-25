@@ -31,16 +31,18 @@ export default class StakeContract {
 		this.stakerAccount = account;
 		this.contract = contract;
 		this.provider = provider;
+		console.log("provider", provider);
 	}
 
-	createStakeTransaction = async (tokenId: string, stakeTypeId: number = 1, landInEgld: number = 100) => {
+	createStakeTransaction = async (tokenId: string, stakeTypeId: number = 1, landAmount: number = 100) => {
 		const args: TypedValue[] = [
 			BytesValue.fromUTF8(tokenId),
-			new BigUIntValue(Egld(landInEgld).valueOf()),
+			new BigUIntValue(Egld(landAmount).valueOf()),
 			BytesValue.fromUTF8(STAKE),
-			new U32Value(stakeTypeId), // stake_type_id
-			new AddressValue(this.stakerAddress),
+			new U32Value(1), // stake_type_id
+			new AddressValue(new Address(this.stakerAddress)),
 		];
+		console.log("args", args);
 		const { argumentsString } = new ArgSerializer().valuesToString(args);
 		const data = new TransactionPayload(`ESDTTransfer@${argumentsString}`);
 
@@ -49,7 +51,7 @@ export default class StakeContract {
 			gasLimit: new GasLimit(10000000),
 			data: data,
 		});
-		await refreshAccount();
+		// await refreshAccount();
 		sendTransactions({
 			transactions: tx,
 		});

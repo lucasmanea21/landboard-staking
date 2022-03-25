@@ -19,18 +19,31 @@ const useStakeContract = () => {
 				abi: new SmartContractAbi(abiRegistry, [CONTRACT_NAME]),
 			});
 			const provider = new ProxyProvider(network.apiAddress, { timeout: TIMEOUT });
-
-			new StakeContract(account, contract, provider);
 			setStakeContract(new StakeContract(account, contract, provider));
 		}
 	};
 
+	const getStakeContract = async () => {
+		const abiRegistry = await AbiRegistry.load({
+			urls: [CONTRACT_ABI_URL],
+		});
+		const contract = new SmartContract({
+			address: new Address(CONTRACT_ADDRESS),
+			abi: new SmartContractAbi(abiRegistry, [CONTRACT_NAME]),
+		});
+		const provider = new ProxyProvider(network.apiAddress, { timeout: TIMEOUT });
+
+		return new StakeContract(account, contract, provider);
+	};
+
 	useEffect(() => {
+		console.log(network);
 		loadContract();
 	}, [network, account]);
 
 	return {
 		stakeContract,
+		getStakeContract,
 	};
 };
 

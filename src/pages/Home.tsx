@@ -1,5 +1,23 @@
-import { useGetAccountInfo, useGetNetworkConfig } from "@elrondnetwork/dapp-core";
+import { refreshAccount, sendTransactions, useGetAccountInfo, useGetNetworkConfig } from "@elrondnetwork/dapp-core";
+import {
+	AbiRegistry,
+	Address,
+	AddressValue,
+	ArgSerializer,
+	BigUIntValue,
+	BytesValue,
+	Egld,
+	GasLimit,
+	ProxyProvider,
+	SmartContract,
+	SmartContractAbi,
+	Transaction,
+	TransactionPayload,
+	TypedValue,
+	U32Value,
+} from "@elrondnetwork/erdjs/out";
 import { fadeInVariants, motionContainerProps } from "animation/variants";
+import StakeContract from "api";
 import axios from "axios";
 import Button from "components/buttons";
 import TokenPicker from "components/buttons/TokenPicker";
@@ -7,6 +25,7 @@ import PlanCard from "components/cards";
 import CheckboxGroup from "components/checkbox/CheckboxGroup";
 import { Icon } from "components/icons/Icon";
 import Input from "components/input";
+import { CONTRACT_ABI_URL, CONTRACT_ADDRESS, CONTRACT_NAME, STAKE, TIMEOUT } from "config";
 import { AnimatePresence, motion } from "framer-motion/dist/framer-motion";
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
@@ -63,12 +82,12 @@ const lklandOptions = [
 		checked: false,
 	},
 ];
-//1648231200000
 
 const Home = () => {
 	const { address, account } = useGetAccountInfo();
 	const { network } = useGetNetworkConfig();
-	const { stakeContract } = useStakeContract();
+	const { stakeContract, getStakeContract } = useStakeContract();
+	const provider = new ProxyProvider(network.apiAddress, { timeout: TIMEOUT });
 
 	const isMobile = useMedia("(max-width: 768px)");
 
@@ -111,10 +130,14 @@ const Home = () => {
 	};
 
 	const handleStake = () => {
-		const tokenId = selectedToken === "LAND" ? "LAND-40f26f" : lklandTypeId;
+		// const tokenId = selectedToken === "LAND" ? "LAND-40f26f" : lklandTypeId;
+		const tokenId = selectedToken === "LAND" ? "SVEN-4b35b0" : lklandTypeId;
 		const planIndex = landPlans.map((plan) => plan.days).indexOf(activeDay);
 		const stakeTypeId = stakeTypes[planIndex];
-		stakeContract?.createStakeTransaction(tokenId, planIndex, parseInt(stakedLandQuantity));
+
+		getStakeContract().then((contract) =>
+			// contract.createStakeTransaction(tokenId, planIndex, parseInt(stakedLandQuantity))
+		);
 	};
 
 	const handleSwitchToken = (token: string) => setSelectedToken(token);
@@ -127,13 +150,19 @@ const Home = () => {
 		if (account.address != "") {
 			axios.get(`${network.apiAddress}/accounts/${account.address}/tokens`).then((res: any) => {
 				if (res.data?.length > 0) {
-					const tokens = res.data.filter((a: any) => a?.identifier === "LAND-40f26f" || a?.ticker === "LAND-40f26f");
-					const lkLand1 = res.data.filter((a: any) => a?.identifier === "LKLAND-6cf78e");
-					const lkLand2 = res.data.filter((a: any) => a?.identifier === "LKLAND-c617f7");
-					setTotalLandBalance(tokens.length > 0 ? tokens[0].balance / 10 ** 18 : 0);
+					const tokens = res.data.filter(
+						(a: any) => a?.identifier === "LAND-40f26f" || a?.ticker === "LAND-40f26f" || a?.ticker === "SVEN-4b35b0"
+					);
+					const lkLand1 = res.data.filter(
+						(a: any) => a?.identifier === "LKLAND-6cf78e" || a?.ticker === "LKLAND-6cf78e"
+					);
+					const lkLand2 = res.data.filter(
+						(a: any) => a?.identifier === "LKLAND-c617f7" || a?.ticker === "LKLAND-c617f7"
+					);
+					setTotalLandBalance(tokens.length > 0 ? tokens[0]?.balance / 10 ** 18 : 0);
 					setTotalLkLandBalance({
-						"LKLAND-6cf78e": lkLand1.length > 0 ? lkLand1[0].balance / 10 ** 18 : 0,
-						"LKLAND-c617f7": lkLand2.length > 0 ? lkLand2[0].balance / 10 ** 18 : 0,
+						"LKLAND-6cf78e": lkLand1.length > 0 ? lkLand1[0]?.balance / 10 ** 18 : 0,
+						"LKLAND-c617f7": lkLand2.length > 0 ? lkLand2[0]?.balance / 10 ** 18 : 0,
 					});
 				}
 			});
@@ -161,7 +190,7 @@ const Home = () => {
 
 	// @ts-ignore
 	const balance = selectedToken === "LAND" ? totalLandBalance : totalLkLandBalance[lklandTypeId];
-	const disabled = timeLeft > 0 || stakedLandQuantity === "0" || !stakedLandQuantity || !address || balance < 1000;
+	const disabled = false; // timeLeft > 0 || stakedLandQuantity === "0" || !stakedLandQuantity || !address || balance < 1000;
 
 	const handleSelectLkLand = (options: any[]) => {
 		setLklandType(options.filter((a: any) => a.checked)[0].value);

@@ -42,7 +42,10 @@ const AddressButton = ({ onClick }: any) => {
 		if (account.address != "") {
 			axios.get(`${network.apiAddress}/accounts/${account.address}/tokens`).then((res: any) => {
 				if (res.data?.length > 0)
-					setTotalLandBalance(res.data.filter((a: any) => a.identifier === "LAND-40f26f")[0].balance / 10 ** 18);
+					setTotalLandBalance(
+						res.data.filter((a: any) => a.identifier === "LAND-40f26f" || a.ticker === "SVEN-4b35b0")[0].balance /
+							10 ** 18
+					);
 			});
 		}
 	}, [account]);
